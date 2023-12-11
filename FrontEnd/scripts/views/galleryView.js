@@ -24,13 +24,13 @@ class GalleryView {
     this.data = data;
     const markupTous = `
         <li class="filter-item">
-            <a class="filter-link" href="#tous">Tous</a>
+            <a class="filter-link" href="#filter-tous">Tous</a>
         </li>`;
     if (this.data === "Objets")
       this.filtersList.insertAdjacentHTML("beforeend", markupTous);
     const markup = `
         <li class="filter-item">
-            <a class="filter-link" href="#${this.data}">${this.data}</a>
+            <a class="filter-link" href="#filter-${this.data}">${this.data}</a>
         </li>`;
     this.filtersList.insertAdjacentHTML("beforeend", markup);
   }

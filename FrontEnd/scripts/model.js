@@ -42,3 +42,25 @@ export function getFilteredProjects(filterValue) {
     console.error(err);
   }
 }
+
+export async function login(credentials) {
+  try {
+    const res = await fetch(`${BASE_URL}/users/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    if (!res.ok)
+      throw new Error(
+        "Désolé, nous n'avons pas pu vous connecter à votre compte. Veuillez bien vérifier la saisie de votre adresse mail et de votre mot de passe."
+      );
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
