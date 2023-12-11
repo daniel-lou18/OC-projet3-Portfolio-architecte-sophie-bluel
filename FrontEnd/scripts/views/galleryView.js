@@ -23,7 +23,7 @@ class GalleryView {
   renderCategory(data) {
     this.data = data;
     const markupTous = `
-        <li class="filter-item">
+        <li class="filter-item filter-active">
             <a class="filter-link" href="#filter-tous">Tous</a>
         </li>`;
     if (this.data === "Objets")
@@ -33,6 +33,15 @@ class GalleryView {
             <a class="filter-link" href="#filter-${this.data}">${this.data}</a>
         </li>`;
     this.filtersList.insertAdjacentHTML("beforeend", markup);
+
+    // Code pour ajouter la classe "active" quand on clique sur la catégorie
+    this.filtersList.addEventListener("click", (e) => {
+      if (!e.target.closest(".filter-item")) return;
+      Array.from(this.filtersList.querySelectorAll(".filter-item")).forEach(
+        (elem) => elem.classList.remove("filter-active")
+      );
+      e.target.closest(".filter-item").classList.add("filter-active");
+    });
   }
 
   ////////////////////////////////
