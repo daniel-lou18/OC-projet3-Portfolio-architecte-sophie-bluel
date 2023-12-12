@@ -129,11 +129,15 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
 }
+
+.main-container {
+  max-width: 1140px;
+  margin: auto;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -184,6 +188,10 @@ a {
   color: inherit;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -207,10 +215,12 @@ a {
 #introduction p {
   margin-bottom: 0.5em;
 }
-#portfolio h2 {
+
+/* #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
-}
+} */
+
 .gallery {
   width: 100%;
   display: grid;
@@ -276,7 +286,16 @@ footer nav ul {
   margin: 2em;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Home Page */
+
+.filters {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 
 .filters ul {
   display: flex;
@@ -286,27 +305,12 @@ footer nav ul {
 }
 
 .filters li {
-  display: flex;
-  align-items: center;
-  /* height: 36px;
-  padding: 0 8px;
-  font-size: 1.2em;
-  font-family: "Syne";
-  font-weight: 700;
-  color: #1d6154;
-  border: 1px solid #1d6154; */
   margin: 2em auto;
-  text-align: center;
-}
-
-.filters a:hover,
-.filters a.filter-active {
-  cursor: pointer;
-  color: white;
-  background-color: #1d6154;
 }
 
 .filters a {
+  display: flex;
+  align-items: center;
   height: 36px;
   padding: 0 8px;
   font-size: 1.2em;
@@ -317,10 +321,38 @@ footer nav ul {
   border-radius: 60px;
 }
 
+.filters a:hover,
+.filters a.filter-active {
+  cursor: pointer;
+  color: white;
+  background-color: #1d6154;
+}
+
+.projects-title {
+  display: flex;
+  width: fit-content;
+  margin: 125px auto 0 auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.projects-title.margin-bottom {
+  margin-bottom: 75px;
+}
+
+.modify span {
+  margin-left: 8px;
+}
+
 /* Page Login */
 
 #login .link {
   text-align: center;
+  text-decoration: underline;
+}
+
+#login .error-message {
+  height: 50px;
 }
 
 /* Topbar */
@@ -335,8 +367,10 @@ footer nav ul {
   align-items: center;
   position: sticky;
   top: 0;
+  left: 0;
   height: 59px;
   width: 100%;
+  gap: 8px;
   background-color: black;
   color: white;
 }

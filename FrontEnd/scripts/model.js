@@ -54,9 +54,13 @@ export async function login(credentials) {
       },
       body: JSON.stringify(credentials),
     });
+    if (!res.ok && res.status === 401)
+      throw new Error(
+        "Mot de passe ou adresse email invalide. Veuillez bien vérifier la saisie de votre adresse email et de votre mot de passe."
+      );
     if (!res.ok)
       throw new Error(
-        "Désolé, nous n'avons pas pu vous connecter à votre compte. Veuillez bien vérifier la saisie de votre adresse mail et de votre mot de passe."
+        "Désolé, nous n'avons pas pu vous connecter à votre compte."
       );
     const data = await res.json();
     localStorage.setItem("user", JSON.stringify({ ...credentials, ...data }));
