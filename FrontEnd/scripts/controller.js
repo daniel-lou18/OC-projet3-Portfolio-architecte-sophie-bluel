@@ -6,6 +6,7 @@ import {
   login,
   loadUser,
   logoutUser,
+  deleteProject,
 } from "./model.js";
 import GalleryView from "./views/galleryView.js";
 import LoginView from "./views/loginView.js";
@@ -61,6 +62,19 @@ function userController() {
 async function modalController() {
   if (state.projects.length === 0) await loadProjects();
   ModalView.renderModal(state.projects);
+  ModalView.addHandlerDeleteProject((id) => deleteController(id));
+}
+
+async function deleteController(id) {
+  try {
+    await deleteProject(id);
+    // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await loadProjects();
+    ModalView.renderModal(state.projects);
+  }
 }
 
 GalleryView.addHandlerRenderProjects(galleryController);

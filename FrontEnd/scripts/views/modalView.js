@@ -3,11 +3,12 @@ class ModalView {
     this.data = null;
     this.editLink = document.querySelector(".modify");
     this.backdrop = document.querySelector(".backdrop");
-    this.parentElement = document.querySelector(".modal-image-list");
+    this.imageList = document.querySelector(".modal-image-list");
     this.closeElement = document.querySelector(".modal-close");
   }
 
   renderModal(data) {
+    this.clearProjects();
     this.data = data;
     this.backdrop.classList.remove("hidden");
     this.closeElement.addEventListener("click", this.closeModal.bind(this));
@@ -18,13 +19,23 @@ class ModalView {
     this.backdrop.classList.add("hidden");
   }
 
+  clearProjects() {
+    this.imageList.innerHTML = "";
+  }
+
   renderProject(project) {
     const markup = `
+        <li data-id=${project.id}>
             <figure>
                 <img src=${project.imageUrl} alt=${project.title} />
             </figure>
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-trash-can fa-sm"></i>
+            </div>
+        </li>
+
         `;
-    this.parentElement.insertAdjacentHTML("beforeend", markup);
+    this.imageList.insertAdjacentHTML("beforeend", markup);
   }
 
   addHandlerRenderModal(handler) {
@@ -32,6 +43,12 @@ class ModalView {
       e.preventDefault();
       handler();
     });
+  }
+
+  addHandlerDeleteProject(handler) {
+    Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
+      elem.addEventListener("click", async () => await handler(elem.dataset.id))
+    );
   }
 }
 

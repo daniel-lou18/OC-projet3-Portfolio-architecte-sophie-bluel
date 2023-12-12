@@ -79,3 +79,18 @@ export function loadUser() {
 export function logoutUser() {
   localStorage.removeItem("user");
 }
+
+export async function deleteProject(id) {
+  // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
+  try {
+    const res = await fetch(`${BASE_URL}/works/${id}`, {
+      method: "DELETE",
+      headers: { Accept: "*/*", Authorization: `Bearer ${state.user.token}` },
+    });
+    if (!res.ok) throw new Error("Impossible de supprimer le projet");
+    const data = await res.json();
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
+}

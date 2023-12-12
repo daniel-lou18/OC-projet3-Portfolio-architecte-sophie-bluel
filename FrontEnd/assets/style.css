@@ -389,8 +389,8 @@ footer nav ul {
 
 .modal {
   background-color: whitesmoke;
-  max-width: 400px;
-  max-height: 600px;
+  max-width: 630px;
+  /* max-height: 600px; */
   position: absolute;
   top: 50vh;
   left: 50vw;
@@ -407,6 +407,27 @@ footer nav ul {
   gap: 8px;
 }
 
+.modal-form li {
+  position: relative;
+}
+
 .modal-form img {
   object-fit: cover;
+}
+
+.modal-form .icon-wrapper {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 2px;
+}
+
+.modal-form i {
+  color: white;
 }
