@@ -288,6 +288,25 @@ footer nav ul {
 .filters li {
   display: flex;
   align-items: center;
+  /* height: 36px;
+  padding: 0 8px;
+  font-size: 1.2em;
+  font-family: "Syne";
+  font-weight: 700;
+  color: #1d6154;
+  border: 1px solid #1d6154; */
+  margin: 2em auto;
+  text-align: center;
+}
+
+.filters a:hover,
+.filters a.filter-active {
+  cursor: pointer;
+  color: white;
+  background-color: #1d6154;
+}
+
+.filters a {
   height: 36px;
   padding: 0 8px;
   font-size: 1.2em;
@@ -295,20 +314,29 @@ footer nav ul {
   font-weight: 700;
   color: #1d6154;
   border: 1px solid #1d6154;
-  margin: 2em auto;
-  text-align: center;
   border-radius: 60px;
-}
-
-.filters li:hover,
-.filters li.filter-active {
-  cursor: pointer;
-  color: white;
-  background-color: #1d6154;
 }
 
 /* Page Login */
 
 #login .link {
   text-align: center;
+}
+
+/* Topbar */
+
+#topbar.hidden {
+  display: none;
+}
+
+#topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  height: 59px;
+  width: 100%;
+  background-color: black;
+  color: white;
 }

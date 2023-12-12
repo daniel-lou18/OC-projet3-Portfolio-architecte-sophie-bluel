@@ -3,6 +3,7 @@ const BASE_URL = "http://localhost:5678/api";
 export const state = {
   projects: [],
   categories: [],
+  user: null,
 };
 
 export async function loadProjects() {
@@ -58,9 +59,19 @@ export async function login(credentials) {
         "Désolé, nous n'avons pas pu vous connecter à votre compte. Veuillez bien vérifier la saisie de votre adresse mail et de votre mot de passe."
       );
     const data = await res.json();
-    console.log(data);
+    localStorage.setItem("user", JSON.stringify({ ...credentials, ...data }));
   } catch (err) {
     console.error(err);
     throw err;
   }
+}
+
+export function loadUser() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) return;
+  state.user = user;
+}
+
+export function logoutUser() {
+  localStorage.removeItem("user");
 }

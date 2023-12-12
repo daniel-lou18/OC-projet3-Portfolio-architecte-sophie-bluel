@@ -1,1 +1,1 @@
-import { LoginView } from "./scripts/controller.js";
+import { LoginView, UserView } from "./scripts/controller.js";

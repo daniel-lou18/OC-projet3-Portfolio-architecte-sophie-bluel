@@ -4,9 +4,12 @@ import {
   loadCategories,
   getFilteredProjects,
   login,
+  loadUser,
+  logoutUser,
 } from "./model.js";
 import GalleryView from "./views/galleryView.js";
 import LoginView from "./views/loginView.js";
+import UserView from "./views/userView.js";
 
 async function galleryController() {
   await loadProjects();
@@ -33,14 +36,32 @@ async function loginController(e) {
     e.preventDefault();
     const credentials = LoginView.getUserCredentials();
     await login(credentials);
+    window.location.assign("index.html");
   } catch (err) {
     LoginView.renderError(err.message);
   }
 }
 
+function logoutController() {
+  logoutUser();
+  window.location.assign("index.html");
+  UserView.renderLoggedOut();
+}
+
+function userController() {
+  loadUser();
+  console.log(state.user);
+  if (!state.user) return;
+  UserView.renderLoggedIn();
+  UserView.addHandlerRenderLoggedOut(logoutController);
+}
+
 GalleryView.addHandlerRenderProjects(galleryController);
 GalleryView.addHandlerRenderCategories(categoriesController);
 GalleryView.addHandlerFilterProjects(filterController);
+UserView.addHandlerRenderLoggedIn(userController);
 LoginView.addHandlerLogin(loginController);
 
-export { GalleryView, LoginView };
+console.log(state);
+
+export { GalleryView, UserView, LoginView };

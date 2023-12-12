@@ -34,13 +34,13 @@ class GalleryView {
         </li>`;
     this.filtersList.insertAdjacentHTML("beforeend", markup);
 
-    // Code pour ajouter la classe "active" quand on clique sur la catégorie
+    // Code pour ajouter la classe "active" quand on clique sur une catégorie
     this.filtersList.addEventListener("click", (e) => {
-      if (!e.target.closest(".filter-item")) return;
-      Array.from(this.filtersList.querySelectorAll(".filter-item")).forEach(
+      if (!e.target.closest(".filter-link")) return;
+      Array.from(this.filtersList.querySelectorAll(".filter-link")).forEach(
         (elem) => elem.classList.remove("filter-active")
       );
-      e.target.closest(".filter-item").classList.add("filter-active");
+      e.target.closest(".filter-link").classList.add("filter-active");
     });
   }
 
