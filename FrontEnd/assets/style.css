@@ -188,7 +188,8 @@ a {
   color: inherit;
 }
 
-a:hover {
+a:hover,
+button:hover {
   cursor: pointer;
 }
 
@@ -373,4 +374,39 @@ footer nav ul {
   gap: 8px;
   background-color: black;
   color: white;
+}
+
+/* Modal */
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  background-color: whitesmoke;
+  max-width: 400px;
+  max-height: 600px;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.modal-form {
+  padding: 30px;
+}
+
+.modal-form ul {
+  display: grid;
+  grid-template-columns: repeat(5, calc(20% - 6.4px));
+  gap: 8px;
+}
+
+.modal-form img {
+  object-fit: cover;
 }

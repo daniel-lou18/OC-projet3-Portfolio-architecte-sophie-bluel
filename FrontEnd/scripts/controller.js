@@ -10,6 +10,7 @@ import {
 import GalleryView from "./views/galleryView.js";
 import LoginView from "./views/loginView.js";
 import UserView from "./views/userView.js";
+import ModalView from "./views/modalView.js";
 
 async function galleryController() {
   await loadProjects();
@@ -54,6 +55,12 @@ function userController() {
   if (!state.user) return;
   UserView.renderLoggedIn();
   UserView.addHandlerRenderLoggedOut(logoutController);
+  ModalView.addHandlerRenderModal(modalController);
+}
+
+async function modalController() {
+  if (state.projects.length === 0) await loadProjects();
+  ModalView.renderModal(state.projects);
 }
 
 GalleryView.addHandlerRenderProjects(galleryController);
@@ -64,4 +71,4 @@ LoginView.addHandlerLogin(loginController);
 
 console.log(state);
 
-export { GalleryView, UserView, LoginView };
+export { GalleryView, UserView, LoginView, ModalView };
