@@ -3,7 +3,10 @@ class ModalView {
     this.data = null;
     this.editLink = document.querySelector(".modify");
     this.backdrop = document.querySelector(".backdrop");
+    this.modal = document.querySelector(".modal");
     this.imageList = document.querySelector(".modal-image-list");
+    this.fieldsAddForm = document.querySelector(".fields-container");
+    this.toAddForm = document.querySelector(".button-add");
     this.closeElement = document.querySelector(".modal-close");
   }
 
@@ -12,15 +15,22 @@ class ModalView {
     this.data = data;
     this.backdrop.classList.remove("hidden");
     this.closeElement.addEventListener("click", this.closeModal.bind(this));
+    this.backdrop.addEventListener("click", this.outsideClick.bind(this));
     this.data.forEach((project) => this.renderProject.call(this, project));
-  }
-
-  closeModal() {
-    this.backdrop.classList.add("hidden");
   }
 
   clearProjects() {
     this.imageList.innerHTML = "";
+  }
+
+  closeModal() {
+    this.backdrop.classList.add("hidden");
+    location.reload();
+  }
+
+  outsideClick(e) {
+    if (this.modal.contains(e.target)) return;
+    this.closeModal();
   }
 
   renderProject(project) {
@@ -49,6 +59,18 @@ class ModalView {
     Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
       elem.addEventListener("click", async () => await handler(elem.dataset.id))
     );
+  }
+
+  /// Modale ajouter image ////
+
+  renderAddForm(data) {
+    this.data = data;
+    this.imageList.remove();
+    this.fieldsAddForm.style.display = "flex";
+  }
+
+  addHandlerRenderAddForm(handler) {
+    this.toAddForm.addEventListener("click", handler);
   }
 }
 

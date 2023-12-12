@@ -63,6 +63,7 @@ async function modalController() {
   if (state.projects.length === 0) await loadProjects();
   ModalView.renderModal(state.projects);
   ModalView.addHandlerDeleteProject((id) => deleteController(id));
+  ModalView.addHandlerRenderAddForm(renderAddFormController);
 }
 
 async function deleteController(id) {
@@ -75,6 +76,11 @@ async function deleteController(id) {
     await loadProjects();
     ModalView.renderModal(state.projects);
   }
+}
+
+function renderAddFormController(e) {
+  e.preventDefault();
+  ModalView.renderAddForm(state.categories);
 }
 
 GalleryView.addHandlerRenderProjects(galleryController);

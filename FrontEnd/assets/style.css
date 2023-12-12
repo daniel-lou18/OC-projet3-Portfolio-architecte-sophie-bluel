@@ -189,7 +189,8 @@ a {
 }
 
 a:hover,
-button:hover {
+button:hover,
+input[type="submit"] {
   cursor: pointer;
 }
 
@@ -255,12 +256,14 @@ button:hover {
 }
 
 #contact input,
-#login input {
+#login input,
+.modal input {
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label,
 #login label {
   margin: 2em 0 1em 0;
@@ -271,6 +274,8 @@ button:hover {
 }
 
 input[type="submit"] {
+  height: 36px;
+  font-size: 14px;
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -384,31 +389,61 @@ footer nav ul {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .modal {
   background-color: whitesmoke;
-  max-width: 630px;
-  /* max-height: 600px; */
+  width: 630px;
   position: absolute;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+
+.modal-topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  height: 40px;
+  padding-right: 16px;
+}
+
+.modal-close {
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  background: none;
+  border: none;
 }
 
 .modal-form {
-  padding: 30px;
+  padding: 30px 50px;
+}
+
+.modal-form h3 {
+  width: fit-content;
+  margin: 0 auto 30px auto;
+  font-size: 26px;
 }
 
 .modal-form ul {
   display: grid;
   grid-template-columns: repeat(5, calc(20% - 6.4px));
   gap: 8px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #b3b3b3;
 }
 
 .modal-form li {
   position: relative;
+  transition: 0.2s ease;
+}
+
+.modal-form li:hover {
+  cursor: pointer;
+  transform: scale(1.03);
 }
 
 .modal-form img {
@@ -430,4 +465,18 @@ footer nav ul {
 
 .modal-form i {
   color: white;
+}
+
+.modal-form .button-add {
+  display: block;
+  width: 38%;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Modale ajouter projet */
+
+.fields-container {
+  flex-direction: column;
 }
