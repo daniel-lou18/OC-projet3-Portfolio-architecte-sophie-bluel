@@ -3,6 +3,7 @@ class GalleryView {
     this.data = null;
     this.galleryElement = document.querySelector(".gallery");
     this.filtersList = document.querySelector(".filters ul");
+    this.errorMessage = "Échec du chargement des images";
   }
 
   clearProjects() {
@@ -42,6 +43,16 @@ class GalleryView {
       );
       e.target.closest(".filter-link").classList.add("filter-active");
     });
+  }
+
+  renderGalleryError(errorMessage = this.errorMessage) {
+    const markup = `<p class="error-message">${errorMessage}</p`;
+    this.galleryElement.insertAdjacentHTML("beforeend", markup);
+  }
+
+  renderCategoriesError(errorMessage = this.errorMessage) {
+    const markup = `<p class="error-message">${errorMessage}</p`;
+    this.filtersList.insertAdjacentHTML("beforeend", markup);
   }
 
   ////////////////////////////////

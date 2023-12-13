@@ -9,30 +9,29 @@ export const state = {
 export async function loadProjects() {
   try {
     const res = await fetch(`${BASE_URL}/works`);
-    if (!res.ok) throw new Error("Échec de la récupération des projets");
+    if (!res.ok) throw new Error("🚨 Échec du chargement des projets");
     const data = await res.json();
-    console.log(data);
     state.projects = [...data];
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
 
 export async function loadCategories() {
   try {
     const res = await fetch(`${BASE_URL}/categories`);
-    if (!res.ok) throw new Error("Échec de la récupération des catégories");
+    if (!res.ok) throw new Error("🚨 Échec du chargement des catégories");
     const data = await res.json();
     state.categories = new Set(data.map((cat) => cat.name));
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
 
 export function getFilteredProjects(filterValue) {
   try {
     if (state.projects.length === 0 || state.categories.length === 0)
-      throw new Error("Échec du filtrage des photos");
+      throw new Error("🚨 Échec lors du filtrage des photos");
     const filteredProjects = state.projects.filter(
       (project) =>
         project.categoryId - 1 ===
@@ -40,7 +39,7 @@ export function getFilteredProjects(filterValue) {
     );
     return filteredProjects;
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
   }
 }
 
@@ -54,14 +53,16 @@ export async function login(credentials) {
       },
       body: JSON.stringify(credentials),
     });
-    if (!res.ok && res.status === 401)
+    if (res.status === 401)
       throw new Error(
-        "Mot de passe ou adresse email invalide. Veuillez bien vérifier la saisie de votre adresse email et de votre mot de passe."
+        "🚨 Mot de passe ou adresse email invalide. Veuillez bien vérifier la saisie de votre adresse email et de votre mot de passe."
+      );
+    if (res.status === 404)
+      throw new Error(
+        "🚨 Compte utilisateur inconnu. Veuillez bien vérifier les données que vous avez saisies."
       );
     if (!res.ok)
-      throw new Error(
-        "Désolé, nous n'avons pas pu vous connecter à votre compte."
-      );
+      throw new Error("🚨 Erreur lors de la connexion à votre compte.");
     const data = await res.json();
     localStorage.setItem("user", JSON.stringify({ ...credentials, ...data }));
   } catch (err) {
@@ -81,7 +82,6 @@ export function logoutUser() {
 }
 
 export async function deleteProject(id) {
-  // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
   try {
     const res = await fetch(`${BASE_URL}/works/${id}`, {
       method: "DELETE",
@@ -89,6 +89,7 @@ export async function deleteProject(id) {
     });
     if (!res.ok) throw new Error("Échec de la suppression de la photo");
     const data = await res.json();
+    // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
   } catch (err) {
     console.error(err.message);
     throw err;
@@ -100,9 +101,7 @@ export async function addProject(formData) {
     const res = await fetch(`${BASE_URL}/works`, {
       method: "POST",
       headers: {
-        // Accept: "application/json",
         Authorization: `Bearer ${state.user.token}`,
-        "Content-Type": "multipart/form-data",
       },
       body: formData,
     });

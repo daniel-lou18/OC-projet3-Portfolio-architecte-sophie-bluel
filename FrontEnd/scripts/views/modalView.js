@@ -80,9 +80,8 @@ class ModalView {
   }
 
   renderProjectCategory(cat, idx) {
-    console.log(idx);
     const markup = `
-      <option value=${idx}>${cat}</option>
+      <option value=${idx + 1}>${cat}</option>
     `;
     this.selectCategory.insertAdjacentHTML("beforeend", markup);
   }

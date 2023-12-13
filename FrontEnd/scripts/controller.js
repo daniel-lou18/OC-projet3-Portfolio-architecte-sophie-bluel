@@ -15,13 +15,21 @@ import UserView from "./views/userView.js";
 import ModalView from "./views/modalView.js";
 
 async function galleryController() {
-  await loadProjects();
-  state.projects.forEach((project) => GalleryView.renderProject(project));
+  try {
+    await loadProjects();
+    state.projects.forEach((project) => GalleryView.renderProject(project));
+  } catch (err) {
+    GalleryView.renderGalleryError(err.message);
+  }
 }
 
 async function categoriesController() {
-  await loadCategories();
-  state.categories.forEach((cat) => GalleryView.renderCategory(cat));
+  try {
+    await loadCategories();
+    state.categories.forEach((cat) => GalleryView.renderCategory(cat));
+  } catch (err) {
+    GalleryView.renderCategoriesError(err.message);
+  }
 }
 
 async function filterController() {
@@ -71,7 +79,6 @@ async function modalController(e) {
 async function deleteController(id) {
   try {
     await deleteProject(id);
-    // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
   } catch (err) {
     console.error(err);
   } finally {
@@ -101,7 +108,8 @@ async function addProjectController(e) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
     await addProject(formData);
-    // ECHEC !!!
+    ModalView.closeModal();
+    alert("Votre image a bien été ajoutée");
   } catch (err) {
     console.error(err.message);
   }

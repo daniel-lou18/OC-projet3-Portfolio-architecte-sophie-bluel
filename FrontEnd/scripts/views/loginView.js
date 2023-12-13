@@ -14,10 +14,8 @@ class LoginView {
   }
 
   renderError(errorMessage = this.errorMessage) {
-    const markup = `<p>${errorMessage}</p`;
-    this.parentElement
-      .querySelector(".error-message")
-      .insertAdjacentHTML("beforeend", markup);
+    this.parentElement.querySelector(".error-message").textContent =
+      errorMessage;
   }
 
   addHandlerLogin(handler) {
