@@ -190,7 +190,8 @@ a {
 
 a:hover,
 button:hover,
-input[type="submit"] {
+input[type="submit"],
+.upload-container label:hover {
   cursor: pointer;
 }
 
@@ -257,7 +258,8 @@ input[type="submit"] {
 
 #contact input,
 #login input,
-.modal input {
+.modal input,
+.modal select {
   height: 50px;
   font-size: 1.2em;
   border: none;
@@ -265,7 +267,8 @@ input[type="submit"] {
 }
 
 #contact label,
-#login label {
+#login label,
+.fields-container label {
   margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -273,7 +276,8 @@ input[type="submit"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="submit"],
+.upload-container label {
   height: 36px;
   font-size: 14px;
   font-family: "Syne";
@@ -450,7 +454,7 @@ footer nav ul {
   object-fit: cover;
 }
 
-.modal-form .icon-wrapper {
+.modal-topbar .icon-wrapper {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -479,4 +483,44 @@ footer nav ul {
 
 .fields-container {
   flex-direction: column;
+}
+
+.upload-container {
+  background-color: #e8f1f6;
+  padding: 20px;
+  border-radius: 3px;
+}
+
+.upload-container label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cbd6dc;
+  font-family: "Work Sans";
+  font-weight: 500;
+  color: #306685;
+}
+
+.upload-container input {
+  opacity: 0;
+  height: 0;
+}
+
+.upload-container p,
+.upload-container .icon-wrapper {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.upload-container .icon-wrapper {
+  font-size: 64px;
+}
+
+.upload-container i {
+  color: #cbd6dc;
+}
+
+.fields-container select {
+  border-left: 16px solid white;
+  border-right: 16px solid white;
 }
