@@ -7,6 +7,7 @@ import {
   loadUser,
   logoutUser,
   deleteProject,
+  addProject,
 } from "./model.js";
 import GalleryView from "./views/galleryView.js";
 import LoginView from "./views/loginView.js";
@@ -59,11 +60,12 @@ function userController() {
   ModalView.addHandlerRenderModal(modalController);
 }
 
-async function modalController() {
+async function modalController(e) {
+  e.preventDefault();
   if (state.projects.length === 0) await loadProjects();
   ModalView.renderModal(state.projects);
   ModalView.addHandlerDeleteProject((id) => deleteController(id));
-  ModalView.addHandlerRenderAddForm(renderAddFormController);
+  ModalView.addHandlerRenderAddForm(addFormController);
 }
 
 async function deleteController(id) {
@@ -78,9 +80,39 @@ async function deleteController(id) {
   }
 }
 
-function renderAddFormController(e) {
+function addFormController(e) {
   e.preventDefault();
-  ModalView.renderAddForm(state.categories);
+  ModalView.renderAddForm(Array.from(state.categories));
+  ModalView.addHandlerRenderNavigateBack(navigateBackController);
+  ModalView.addHandlerAddProject(addProjectController);
+  ModalView.addHandlerReadImageFile(addImageController);
+}
+
+function navigateBackController(e) {
+  e.preventDefault();
+  ModalView.renderNavigateBack();
+}
+
+async function addProjectController(e) {
+  try {
+    e.preventDefault();
+    const formData = ModalView.getFormData();
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
+    await addProject(formData);
+    // ECHEC !!!
+  } catch (err) {
+    console.error(err.message);
+  }
+  // finally {
+  //   // await loadProjects();
+  //   ModalView.closeModal();
+  // }
+}
+
+function addImageController() {
+  ModalView.readImageFile();
 }
 
 GalleryView.addHandlerRenderProjects(galleryController);

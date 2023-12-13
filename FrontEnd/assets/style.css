@@ -300,6 +300,10 @@ footer nav ul {
   display: none;
 }
 
+.no-visibility {
+  visibility: hidden;
+}
+
 /* Home Page */
 
 .filters {
@@ -408,18 +412,23 @@ footer nav ul {
 
 .modal-topbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: end;
   height: 40px;
-  padding-right: 16px;
+  padding: 0 16px;
 }
 
-.modal-close {
+.modal-topbar button {
   width: 24px;
   height: 24px;
-  font-size: 16px;
+  font-size: 20px;
   background: none;
   border: none;
+}
+
+button.modal-back {
+  font-size: 24px;
+  visibility: hidden;
 }
 
 .modal-form {
@@ -454,7 +463,7 @@ footer nav ul {
   object-fit: cover;
 }
 
-.modal-topbar .icon-wrapper {
+.modal-image-list .icon-wrapper {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -483,12 +492,16 @@ footer nav ul {
 
 .fields-container {
   flex-direction: column;
+  display: none;
 }
 
 .upload-container {
   background-color: #e8f1f6;
   padding: 20px;
   border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .upload-container label {
@@ -506,18 +519,18 @@ footer nav ul {
   height: 0;
 }
 
-.upload-container p,
-.upload-container .icon-wrapper {
-  width: fit-content;
-  margin: 0 auto;
-}
-
 .upload-container .icon-wrapper {
   font-size: 64px;
 }
 
 .upload-container i {
   color: #cbd6dc;
+}
+
+.upload-container img {
+  width: 50%;
+  height: auto;
+  margin: -20px 0;
 }
 
 .fields-container select {

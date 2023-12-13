@@ -103,6 +103,9 @@
       <aside class="backdrop hidden">
         <div class="modal">
           <div class="modal-topbar">
+            <button class="modal-back">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
             <button class="modal-close">
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -110,13 +113,13 @@
           <form class="modal-form">
             <h3 class="modal-title">Galerie photo</h3>
             <ul class="modal-image-list gallery"></ul>
-            <div class="fields-container hidden">
+            <div class="fields-container">
               <div class="upload-container">
                 <div class="icon-wrapper">
                   <i class="fa-regular fa-image"></i>
                 </div>
                 <label for="file">&plus; Ajouter photo</label>
-                <input type="file" accept=".png,.jpg" id="file" />
+                <input type="file" accept=".png, .jpg" id="file" />
                 <p>jpg, png : 4mo max</p>
               </div>
               <label for="title">Titre</label>

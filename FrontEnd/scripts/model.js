@@ -9,7 +9,7 @@ export const state = {
 export async function loadProjects() {
   try {
     const res = await fetch(`${BASE_URL}/works`);
-    if (!res.ok) throw new Error("Impossible de récupérer les projets");
+    if (!res.ok) throw new Error("Échec de la récupération des projets");
     const data = await res.json();
     console.log(data);
     state.projects = [...data];
@@ -21,7 +21,7 @@ export async function loadProjects() {
 export async function loadCategories() {
   try {
     const res = await fetch(`${BASE_URL}/categories`);
-    if (!res.ok) throw new Error("Impossible de récupérer les catégories");
+    if (!res.ok) throw new Error("Échec de la récupération des catégories");
     const data = await res.json();
     state.categories = new Set(data.map((cat) => cat.name));
   } catch (err) {
@@ -32,7 +32,7 @@ export async function loadCategories() {
 export function getFilteredProjects(filterValue) {
   try {
     if (state.projects.length === 0 || state.categories.length === 0)
-      throw new Error("Impossible de filtrer les projets");
+      throw new Error("Échec du filtrage des photos");
     const filteredProjects = state.projects.filter(
       (project) =>
         project.categoryId - 1 ===
@@ -87,10 +87,29 @@ export async function deleteProject(id) {
       method: "DELETE",
       headers: { Accept: "*/*", Authorization: `Bearer ${state.user.token}` },
     });
-    if (!res.ok) throw new Error("Impossible de supprimer le projet");
+    if (!res.ok) throw new Error("Échec de la suppression de la photo");
     const data = await res.json();
   } catch (err) {
     console.error(err.message);
+    throw err;
+  }
+}
+
+export async function addProject(formData) {
+  try {
+    const res = await fetch(`${BASE_URL}/works`, {
+      method: "POST",
+      headers: {
+        // Accept: "application/json",
+        Authorization: `Bearer ${state.user.token}`,
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Échec de l'ajout de la photo");
+    const data = await res.json();
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 }
