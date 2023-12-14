@@ -119,17 +119,23 @@
                   <i class="fa-regular fa-image"></i>
                 </div>
                 <label for="file">&plus; Ajouter photo</label>
-                <input type="file" accept=".png, .jpg" id="file" />
+                <input
+                  type="file"
+                  accept=".png, .jpg"
+                  id="file"
+                  class="field"
+                />
                 <p>jpg, png : 4mo max</p>
               </div>
               <label for="title">Titre</label>
-              <input type="text" name="title" id="title" />
+              <input type="text" name="title" id="title" class="field" />
               <label for="category">Catégorie</label>
-              <select name="category" id="category">
+              <select name="category" id="category" class="field">
                 <option value="">-- Choisissez une catégorie --</option>
               </select>
             </div>
-            <input type="submit" class="button-add" value="Ajouter une photo" />
+            <button type="button" class="button-next">Ajouter une photo</button>
+            <input type="submit" class="button-add hidden" value="Valider" />
           </form>
         </div>
       </aside>

@@ -269,7 +269,8 @@ input[type="submit"],
 #contact input,
 #login input,
 .modal input,
-.modal select {
+.modal select,
+.modal-form .button-next {
   height: 50px;
   font-size: 1.2em;
   border: none;
@@ -287,7 +288,8 @@ input[type="submit"],
 }
 
 input[type="submit"],
-.upload-container label {
+.upload-container label,
+.modal-form .button-next {
   height: 36px;
   font-size: 14px;
   font-family: "Syne";
@@ -470,7 +472,7 @@ button.modal-back {
 
 .modal-form li:hover {
   cursor: pointer;
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .modal-form img {
@@ -494,12 +496,17 @@ button.modal-back {
   color: white;
 }
 
-.modal-form .button-add {
+.modal-form .button-add,
+.modal-form .button-next {
   display: block;
   width: 38%;
   margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.modal-form .button-add.hidden {
+  display: none;
 }
 
 /* Modale ajouter projet */
@@ -550,4 +557,8 @@ button.modal-back {
 .fields-container select {
   border-left: 16px solid white;
   border-right: 16px solid white;
+}
+
+input.button-add:disabled {
+  background-color: #cbd6dc;
 }
