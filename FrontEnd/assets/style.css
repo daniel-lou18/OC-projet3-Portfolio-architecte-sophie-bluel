@@ -436,6 +436,10 @@ footer nav ul {
   border: none;
 }
 
+.modal-topbar .error-message {
+  margin-bottom: 0;
+}
+
 button.modal-back {
   font-size: 24px;
   visibility: hidden;

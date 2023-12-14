@@ -61,7 +61,6 @@ function logoutController() {
 
 function userController() {
   loadUser();
-  console.log(state.user);
   if (!state.user) return;
   UserView.renderLoggedIn();
   UserView.addHandlerRenderLoggedOut(logoutController);
@@ -69,21 +68,26 @@ function userController() {
 }
 
 async function modalController(e) {
-  e.preventDefault();
-  if (state.projects.length === 0) await loadProjects();
-  ModalView.renderModal(state.projects);
-  ModalView.addHandlerDeleteProject((id) => deleteController(id));
-  ModalView.addHandlerRenderAddForm(addFormController);
+  try {
+    e?.preventDefault();
+    await loadProjects();
+    ModalView.renderModal(state.projects);
+    ModalView.addHandlerDeleteProject((id) => deleteController(id));
+    ModalView.addHandlerRenderAddForm(addFormController);
+  } catch (err) {
+    ModalView.renderError(err.message);
+  }
 }
 
 async function deleteController(id) {
   try {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette photo ?")) return;
     await deleteProject(id);
+    await modalController();
+    GalleryView.clearProjects();
+    state.projects.forEach((project) => GalleryView.renderProject(project));
   } catch (err) {
-    console.error(err);
-  } finally {
-    await loadProjects();
-    ModalView.renderModal(state.projects);
+    ModalView.renderError(err.message);
   }
 }
 
@@ -95,23 +99,21 @@ function addFormController(e) {
   ModalView.addHandlerReadImageFile(addImageController);
 }
 
-function navigateBackController(e) {
+async function navigateBackController(e) {
   e.preventDefault();
   ModalView.renderNavigateBack();
+  await modalController();
 }
 
 async function addProjectController(e) {
   try {
     e.preventDefault();
     const formData = ModalView.getFormData();
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
-    }
+    console.log(formData);
     await addProject(formData);
     ModalView.closeModal();
-    alert("Votre image a bien été ajoutée");
   } catch (err) {
-    console.error(err.message);
+    ModalView.renderError(err.message);
   }
   // finally {
   //   // await loadProjects();

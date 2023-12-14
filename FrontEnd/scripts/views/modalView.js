@@ -1,6 +1,9 @@
 class ModalView {
   constructor() {
     this.data = null;
+    this.addFormRendered = false;
+    this.handlerRenderAddForm = null;
+    this.handlerAddProject = null;
     this.editLink = document.querySelector(".modify");
     this.backdrop = document.querySelector(".backdrop");
     this.modal = document.querySelector(".modal");
@@ -14,6 +17,7 @@ class ModalView {
     this.back = document.querySelector(".modal-back");
     this.file = document.querySelector("#file");
     this.uploadElement = document.querySelector(".upload-container");
+    this.errorMessage = "🚨 Une erreur est survenue";
   }
 
   renderModal(data) {
@@ -27,6 +31,10 @@ class ModalView {
 
   clearProjects() {
     this.imageList.innerHTML = "";
+  }
+
+  clearErrorMessage() {
+    this.modal.querySelector(".error-message")?.remove();
   }
 
   closeModal() {
@@ -67,6 +75,7 @@ class ModalView {
   /// Modale ajouter image ////
 
   renderAddForm(data) {
+    this.clearErrorMessage();
     this.data = data;
     this.title.textContent = "Ajout photo";
     this.button.value = "Valider";
@@ -74,9 +83,20 @@ class ModalView {
     this.back.style.visibility = "visible";
     this.imageList.style.display = "none";
     this.fieldsAddForm.style.display = "flex";
-    this.data.forEach((cat, idx) =>
-      this.renderProjectCategory.call(this, cat, idx)
-    );
+    /// Pour éviter d'ajouter les catégories au menu select quand on revient en arrière et on clique de nouveau sur le bouton "Ajouter une photo"
+    if (!this.addFormRendered) {
+      this.data.forEach((cat, idx) =>
+        this.renderProjectCategory.call(this, cat, idx)
+      );
+    }
+    // Pour enlever le "premier" handler lors de l'affichage de la dernière fenêtre
+    this.handlerRenderAddForm &&
+      this.button.removeEventListener("click", this.handlerRenderAddForm);
+    // Pour rajouter de nouveau le "deuxième" handler après avoir fait un '<=' suivi d'un '=>'
+    this.addFormRendered &&
+      this.button.addEventListener("click", this.handlerAddProject);
+
+    this.addFormRendered = true;
   }
 
   renderProjectCategory(cat, idx) {
@@ -87,12 +107,15 @@ class ModalView {
   }
 
   renderNavigateBack() {
+    this.clearErrorMessage();
     this.title.textContent = "Galerie photo";
     this.button.value = "Ajouter une photo";
     this.button.style.backgroundColor = "#1d6154";
     this.back.style.visibility = "hidden";
     this.imageList.style.display = "grid";
     this.fieldsAddForm.style.display = "none";
+    /// Pour enlever le handler AddProjectController (controller.js) et donc pour éviter d'ajouter l'image quand on revient en arrière et on clique de nouveau sur le bouton "Ajouter une photo"
+    this.button.removeEventListener("click", this.handlerAddProject);
   }
 
   readImageFile() {
@@ -118,7 +141,15 @@ class ModalView {
     return formData;
   }
 
+  renderError(errorMessage = this.errorMessage) {
+    const markup = `<p class="error-message">${errorMessage}</p`;
+    this.back.insertAdjacentHTML("afterend", markup);
+  }
+
+  //////////////////////////////////////////
+
   addHandlerRenderAddForm(handler) {
+    this.handlerRenderAddForm = handler;
     this.button.addEventListener("click", handler);
   }
 
@@ -127,6 +158,7 @@ class ModalView {
   }
 
   addHandlerAddProject(handler) {
+    this.handlerAddProject = handler;
     this.button.addEventListener("click", handler);
   }
 

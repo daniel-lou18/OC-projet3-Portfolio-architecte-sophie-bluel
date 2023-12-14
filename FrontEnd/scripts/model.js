@@ -85,11 +85,16 @@ export async function deleteProject(id) {
   try {
     const res = await fetch(`${BASE_URL}/works/${id}`, {
       method: "DELETE",
-      headers: { Accept: "*/*", Authorization: `Bearer ${state.user.token}` },
+      headers: {
+        Authorization: `Bearer ${state.user.token}`,
+      },
     });
-    if (!res.ok) throw new Error("Échec de la suppression de la photo");
-    const data = await res.json();
-    // PROBLEME : SyntaxError: Unexpected end of JSON input !!!
+    if (res.status === 401)
+      throw new Error(
+        "🚨 Vous n'avez pas l'autorisation de supprimer cette image. Veuillez vous connecter à votre compte."
+      );
+    if (!res.ok) throw new Error("🚨 Échec de la suppression de la photo");
+    console.log(res);
   } catch (err) {
     console.error(err.message);
     throw err;
@@ -105,8 +110,20 @@ export async function addProject(formData) {
       },
       body: formData,
     });
-    if (!res.ok) throw new Error("Échec de l'ajout de la photo");
+    if (res.status === 400)
+      throw new Error(
+        "🚨 Échec de l'ajout de la photo. Veillez à bien remplir tous les champs."
+      );
+    if (res.status === 401)
+      throw new Error(
+        "🚨 Vous n'avez pas l'autorisation d'ajouter une photo. Veuillez vous connecter à votre compte."
+      );
+    if (!res.ok)
+      throw new Error(
+        "🚨 Échec de l'ajout de la photo. Veillez à bien remplir tous les champs."
+      );
     const data = await res.json();
+    console.log(data);
   } catch (err) {
     console.error(err);
     throw err;
