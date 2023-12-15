@@ -15,42 +15,44 @@
     <script src="login.js" type="module"></script>
   </head>
   <body>
-    <header>
-      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-      <nav>
-        <ul>
-          <li><a href="index.html#portfolio">projets</a></li>
-          <li><a href="index.html#contact">contact</a></li>
-          <li><a href="login.html">login</a></li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <section id="login">
-        <h2>Login</h2>
-        <form action="#" method="post">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            value="sophie.bluel@test.tld"
-          />
-          <label for="password">Mot de passe</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            value="S0phie"
-          />
-          <p class="error-message"></p>
-          <input type="submit" value="Se connecter" />
-          <a href="#" class="link">Mot de passe oublié</a>
-        </form>
-      </section>
-    </main>
+    <div class="main-container">
+      <header>
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+          <ul>
+            <li><a href="index.html#portfolio">projets</a></li>
+            <li><a href="index.html#contact">contact</a></li>
+            <li><a href="login.html">login</a></li>
+            <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <section id="login">
+          <h2>Login</h2>
+          <form action="#" method="post">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              value="sophie.bluel@test.tld"
+            />
+            <label for="password">Mot de passe</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              value="S0phie"
+            />
+            <p class="error-message"></p>
+            <input type="submit" value="Se connecter" />
+            <a href="#" class="link">Mot de passe oublié</a>
+          </form>
+        </section>
+      </main>
+    </div>
   </body>
 </html>

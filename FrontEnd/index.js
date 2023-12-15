@@ -1,1 +1,3 @@
-import { GalleryView, ModalView } from "./scripts/controller.js";
+import { initHomePage } from "./scripts/controller.js";
+
+initHomePage();

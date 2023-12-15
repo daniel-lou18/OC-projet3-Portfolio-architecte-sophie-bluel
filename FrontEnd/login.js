@@ -1,1 +1,3 @@
-import { LoginView, UserView } from "./scripts/controller.js";
+import { initLoginPage } from "./scripts/controller.js";
+
+initLoginPage();

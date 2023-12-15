@@ -107,6 +107,7 @@ section {
 }
 body {
   line-height: 1;
+  background-color: #fffef8;
 }
 ol,
 ul {
@@ -143,6 +144,7 @@ header {
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
@@ -179,8 +181,10 @@ nav li {
   color: black;
 }
 
-li:hover {
+nav li:hover {
+  cursor: pointer;
   color: #b1663c;
+  font-weight: 700;
 }
 
 a {
@@ -229,6 +233,10 @@ input[type="submit"],
   margin-bottom: 1em;
 } */
 
+#portfolio {
+  margin-bottom: 75px;
+}
+
 .gallery {
   width: 100%;
   display: grid;
@@ -239,6 +247,10 @@ input[type="submit"],
 
 .gallery img {
   width: 100%;
+}
+
+.gallery figcaption {
+  margin-top: 6px;
 }
 
 .gallery .error-message {
@@ -272,6 +284,7 @@ input[type="submit"],
 .modal select,
 .modal-form .button-next {
   height: 50px;
+  padding: 0 16px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -285,6 +298,7 @@ input[type="submit"],
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 8px;
 }
 
 input[type="submit"],
@@ -433,9 +447,10 @@ footer nav ul {
 .modal-topbar button {
   width: 24px;
   height: 24px;
-  font-size: 20px;
+  font-size: 18px;
   background: none;
   border: none;
+  border-radius: 2px;
 }
 
 .modal-topbar .error-message {
@@ -535,6 +550,11 @@ button.modal-back {
   color: #306685;
 }
 
+.upload-container label:hover {
+  background-color: #1d6154;
+  color: white;
+}
+
 .upload-container input {
   opacity: 0;
   height: 0;
@@ -555,6 +575,7 @@ button.modal-back {
 }
 
 .fields-container select {
+  padding: 0;
   border-left: 16px solid white;
   border-right: 16px solid white;
 }

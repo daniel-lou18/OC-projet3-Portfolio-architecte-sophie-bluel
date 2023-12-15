@@ -66,9 +66,14 @@ class ModalView {
   }
 
   addHandlerDeleteProject(handler) {
+    // la fonction de rappel est asynchrone donc il faut la mettre dans une autre fonction async pour pouvoir utiliser await
     Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
       elem.addEventListener("click", async () => await handler(elem.dataset.id))
     );
+  }
+
+  addHandlerRenderAddForm(handler) {
+    this.buttonNext.addEventListener("click", handler);
   }
 
   /// Modale ajouter image ////
@@ -98,11 +103,13 @@ class ModalView {
         field.addEventListener("change", this.checkInput.bind(this))
       );
     } else {
+      // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.
       this.checkInput.call(this);
     }
   }
 
   renderProjectCategory(cat, idx) {
+    // les valeurs des options doivent être > 0
     const markup = `
       <option value=${idx + 1}>${cat}</option>
     `;
@@ -125,6 +132,8 @@ class ModalView {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     try {
+      // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
+      // la propriété result contient les données sous la forme d'une URL de données
       reader.addEventListener("load", () => {
         this.uploadElement.innerHTML = "";
         this.uploadElement.insertAdjacentHTML(
@@ -138,16 +147,19 @@ class ModalView {
   }
 
   getFormData() {
+    // créer un objet formData qu'on pourra mettre dans le body de notre requête POST
     const formData = new FormData(this.form);
     formData.append("image", this.file.files[0]);
     return formData;
   }
 
   checkInput() {
+    // vérifier si tous les champs sont remplis
     const allFieldsCompleted = Array.from(
       this.form.querySelectorAll(".field")
     ).every((field) => field.value);
 
+    // enlever/ajouter l'attribut "disabled"
     allFieldsCompleted
       ? this.buttonValidate.removeAttribute("disabled")
       : this.buttonValidate.setAttribute("disabled", "");
@@ -159,10 +171,6 @@ class ModalView {
   }
 
   //////////////////////////////////////////
-
-  addHandlerRenderAddForm(handler) {
-    this.buttonNext.addEventListener("click", handler);
-  }
 
   addHandlerRenderNavigateBack(handler) {
     this.back.addEventListener("click", handler);
