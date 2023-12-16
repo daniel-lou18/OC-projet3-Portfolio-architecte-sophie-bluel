@@ -21,15 +21,14 @@ class GalleryView {
     this.galleryElement.insertAdjacentHTML("beforeend", markup);
   }
 
-  renderCategory(data) {
+  renderCategory(data, idx) {
     this.data = data;
     const markupTous = `
         <li class="filter-item filter-active">
             <a class="filter-link filter-active" href="#filter-tous">Tous</a>
         </li>`;
     // On ajoute le bouton "Tous" à la première itération de la boucle : renderCategory sera utilisé avec forEach
-    if (this.data === "Objets")
-      this.filtersList.insertAdjacentHTML("beforeend", markupTous);
+    if (idx === 0) this.filtersList.insertAdjacentHTML("beforeend", markupTous);
     const markup = `
         <li class="filter-item">
             <a class="filter-link" href="#filter-${this.data}">${this.data}</a>

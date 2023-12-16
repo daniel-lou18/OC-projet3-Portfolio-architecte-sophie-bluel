@@ -27,7 +27,9 @@ async function galleryController() {
 async function categoriesController() {
   try {
     await loadCategories();
-    state.categories.forEach((cat) => GalleryView.renderCategory(cat));
+    Array.from(state.categories).forEach((cat, idx) =>
+      GalleryView.renderCategory(cat, idx)
+    );
   } catch (err) {
     GalleryView.renderCategoriesError(err.message);
   }
