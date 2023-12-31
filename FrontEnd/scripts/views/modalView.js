@@ -102,7 +102,7 @@ class ModalView {
       );
       /// Ajouter la fonction aux balises input et select du formulaire pour vérifier si tous les champs sont remplis
       Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
-        field.addEventListener("change", this.checkInput.bind(this))
+        field.addEventListener("input", this.checkInput.bind(this))
       );
     } else {
       // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.

@@ -194,7 +194,7 @@ a {
 
 a:hover,
 button:hover,
-input[type="submit"],
+input[type="submit"]:not(:disabled):hover,
 .upload-container label:hover {
   cursor: pointer;
 }
