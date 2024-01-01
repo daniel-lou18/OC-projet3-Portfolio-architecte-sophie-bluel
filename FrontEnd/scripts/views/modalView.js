@@ -24,7 +24,7 @@ class ModalView {
     this.data = data;
     this.backdrop.classList.remove("hidden");
     // Utiliser les méthodes bind et call pour attacher la valeur de "this" à l'instance de la classe car
-    // la valeur de this dans une fonction de retour d'un eventlistener sera la balise auquel le listener sera attaché
+    // la valeur de this dans une fonction de retour d'un eventlistener sera la balise à laquelle le listener sera attachée
     this.closeElement.addEventListener("click", this.closeModal.bind(this));
     this.backdrop.addEventListener("click", this.outsideClick.bind(this));
     this.data.forEach((project) => this.renderProject.call(this, project));
@@ -62,6 +62,8 @@ class ModalView {
         `;
     this.imageList.insertAdjacentHTML("beforeend", markup);
   }
+
+  ////////////////////////////////////////////////
 
   addHandlerRenderModal(handler) {
     this.editLink.addEventListener("click", handler);

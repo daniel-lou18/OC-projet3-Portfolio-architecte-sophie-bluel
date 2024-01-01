@@ -71,10 +71,6 @@ function userController() {
   console.log(state.user);
   if (!state.user) return;
   UserView.renderLoggedIn();
-  UserView.addHandlerRenderLoggedOut(logoutController);
-  // Ajouter le controller qui gère la première fenêtre de la modale à l'icône "modifier"
-  // (qui est uniquement visible quand l'utilisateur est connecté)
-  ModalView.addHandlerRenderModal(modalController);
 }
 
 // fonction qui gère la première fenêtre de la modale
@@ -85,9 +81,8 @@ async function modalController(e) {
     await loadProjects();
     // Charger les images
     ModalView.renderModal(state.projects);
-    // Attacher les controllers aux images (fonctionnalité suppression) et au bouton (pour accéder à la deuxième fenêtre de la modale)
+    // Attacher le controller aux images (fonctionnalité suppression)
     ModalView.addHandlerDeleteProject(deleteController);
-    ModalView.addHandlerRenderAddForm(addFormController);
   } catch (err) {
     ModalView.renderError(err.message);
   }
@@ -111,8 +106,6 @@ async function deleteController(id) {
 function addFormController(e) {
   e.preventDefault();
   ModalView.renderAddForm(Array.from(state.categories));
-  ModalView.addHandlerRenderNavigateBack(navigateBackController);
-  ModalView.addHandlerAddProject(addProjectController);
 }
 
 async function navigateBackController(e) {
@@ -132,13 +125,18 @@ async function addProjectController(e) {
   }
 }
 
-/////////////////////////////////////////
+// Connecter les controllers aux views : les méthodes 'addHandler" sont les publishers et les controllers (fonctions de rappel) sont les subscribers
 
 function initHomePage() {
   GalleryView.addHandlerRenderProjects(galleryController);
   GalleryView.addHandlerRenderCategories(categoriesController);
   GalleryView.addHandlerFilterProjects(filterController);
   UserView.addHandlerRenderLoggedIn(userController);
+  UserView.addHandlerRenderLoggedOut(logoutController);
+  ModalView.addHandlerRenderModal(modalController);
+  ModalView.addHandlerRenderAddForm(addFormController);
+  ModalView.addHandlerRenderNavigateBack(navigateBackController);
+  ModalView.addHandlerAddProject(addProjectController);
 }
 
 function initLoginPage() {

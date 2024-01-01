@@ -2,6 +2,7 @@ class UserView {
   constructor() {
     this.topbar = document.querySelector("#topbar");
     this.loginLink = document.querySelector(".login-link");
+    this.logoutLink = document.querySelector(".logout-link");
     this.filtersList = document.querySelector(".filters");
     this.modifyLink = document.querySelector(".modify");
     this.projectsTitle = document.querySelector(".projects-title");
@@ -11,14 +12,15 @@ class UserView {
     this.topbar.classList.remove("hidden");
     this.modifyLink.classList.remove("hidden");
     this.projectsTitle.classList.add("margin-bottom");
-    this.loginLink.textContent = "logout";
-    this.loginLink.href = "index.html";
+    this.loginLink.classList.add("hidden");
+    this.logoutLink.classList.remove("hidden");
     this.filtersList.remove();
   }
 
   renderLoggedOut() {
     this.topbar.classList.add("hidden");
-    this.loginLink.textContent = "login";
+    this.loginLink.classList.remove("hidden");
+    this.logoutLink.classList.add("hidden");
   }
 
   addHandlerRenderLoggedIn(handler) {
@@ -26,7 +28,7 @@ class UserView {
   }
 
   addHandlerRenderLoggedOut(handler) {
-    this.loginLink.addEventListener("click", handler);
+    this.logoutLink.addEventListener("click", handler);
   }
 }
 
