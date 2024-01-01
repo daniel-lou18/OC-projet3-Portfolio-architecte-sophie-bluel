@@ -104,6 +104,8 @@ class ModalView {
       Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
         field.addEventListener("input", this.checkInput.bind(this))
       );
+      // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
+      this.file.addEventListener("change", this.readImageFile.bind(this));
     } else {
       // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.
       this.checkInput.call(this);
@@ -135,7 +137,7 @@ class ModalView {
     reader.readAsDataURL(file);
     try {
       // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
-      // la propriété result contient les données sous la forme d'une URL de données
+      // la propriété 'result' contient les données sous la forme d'une URL de données
       reader.addEventListener("load", () => {
         this.uploadElement.innerHTML = "";
         this.uploadElement.insertAdjacentHTML(
@@ -180,10 +182,6 @@ class ModalView {
 
   addHandlerAddProject(handler) {
     this.buttonValidate.addEventListener("click", handler);
-  }
-
-  addHandlerReadImageFile(handler) {
-    this.file.addEventListener("change", handler);
   }
 }
 

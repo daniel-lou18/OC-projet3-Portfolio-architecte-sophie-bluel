@@ -113,7 +113,6 @@ function addFormController(e) {
   ModalView.renderAddForm(Array.from(state.categories));
   ModalView.addHandlerRenderNavigateBack(navigateBackController);
   ModalView.addHandlerAddProject(addProjectController);
-  ModalView.addHandlerReadImageFile(addImageController);
 }
 
 async function navigateBackController(e) {
@@ -131,10 +130,6 @@ async function addProjectController(e) {
   } catch (err) {
     ModalView.renderError(err.message);
   }
-}
-
-function addImageController() {
-  ModalView.readImageFile();
 }
 
 /////////////////////////////////////////
