@@ -83,7 +83,6 @@ class ModalView {
   /// Modale ajouter image ////
 
   renderAddForm(data) {
-    this.buttonValidate.setAttribute("disabled", "");
     this.clearErrorMessage();
     this.data = data;
     this.title.textContent = "Ajout photo";
@@ -125,7 +124,6 @@ class ModalView {
   renderNavigateBack() {
     this.clearErrorMessage();
     this.title.textContent = "Galerie photo";
-
     this.back.style.visibility = "hidden";
     this.imageList.style.display = "grid";
     this.fieldsAddForm.style.display = "none";

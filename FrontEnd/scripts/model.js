@@ -39,10 +39,16 @@ export async function loadCategories() {
   }
 }
 
-export function getFilteredProjects(filterValue) {
+export function getFilteredProjects(hashValue) {
   try {
     if (state.projects.length === 0 || state.categories.length === 0)
       throw new Error("🚨 Échec lors du filtrage des photos");
+
+    const filterValue = hashValue
+      .split("-")[1]
+      .replaceAll("%20", " ")
+      .replaceAll("%C3%B4", "ô");
+
     const filteredProjects = state.projects.filter((project) => {
       return (
         project.categoryId - 1 ===

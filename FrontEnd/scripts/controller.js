@@ -40,12 +40,9 @@ async function filterController() {
   const hashValue = window.location.hash;
   if (!hashValue || !hashValue.startsWith("#filter")) return;
   GalleryView.clearProjects();
-  const filterValue = hashValue
-    .split("-")[1]
-    .replaceAll("%20", " ")
-    .replaceAll("%C3%B4", "ô");
-  if (filterValue === "tous") return await galleryController();
-  const filteredProjects = getFilteredProjects(filterValue);
+  // Recharger toutes les images quand l'utilisateur clique sur 'tous'
+  if (hashValue.endsWith("-tous")) return await galleryController();
+  const filteredProjects = getFilteredProjects(hashValue);
   filteredProjects.forEach((project) => GalleryView.renderProject(project));
 }
 
@@ -79,7 +76,7 @@ async function modalController(e) {
     // "?" car cela permet d'appeller la fonction modalController sans fournir de paramètre
     e?.preventDefault();
     await loadProjects();
-    // Charger les images
+    // Afficher les images
     ModalView.renderModal(state.projects);
     // Attacher le controller aux images (fonctionnalité suppression)
     ModalView.addHandlerDeleteProject(deleteController);
