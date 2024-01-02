@@ -87,7 +87,6 @@ async function modalController(e) {
 
 async function deleteController(id) {
   try {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer cette photo ?")) return;
     await deleteProject(id);
     // Recharger les images dans la modale
     await modalController();
