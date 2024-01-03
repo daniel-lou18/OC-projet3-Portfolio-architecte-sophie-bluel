@@ -106,7 +106,7 @@ section {
   display: block;
 }
 body {
-  line-height: 1;
+  /* line-height: 1; */
   background-color: #fffef8;
 }
 ol,
@@ -148,7 +148,7 @@ header {
 }
 
 main {
-  padding: 0 100px;
+  padding: 25px 95px 50px 95px;
 }
 
 section {
@@ -167,7 +167,10 @@ h1 {
 h1 > span {
   font-family: "Work Sans";
   font-size: 10px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #93532f;
 }
 
 h2 {
@@ -186,7 +189,7 @@ nav ul {
 
 nav li {
   padding: 0 10px;
-  font-size: 1.2em;
+  font-size: 16px;
   color: black;
 }
 
@@ -194,11 +197,10 @@ nav li:hover,
 .modify:hover,
 .modify:hover .fa-regular {
   cursor: pointer;
-  color: #0e2f28;
-  font-weight: 700;
+  color: #93532f;
 }
 
-nav li:last-child img {
+nav li:last-child svg {
   height: 22px;
   width: 22px;
 }
@@ -215,6 +217,16 @@ input[type="submit"]:not(:disabled):hover,
   cursor: pointer;
 }
 
+label {
+  color: #3d3d3d;
+  font-weight: 500;
+}
+
+input:not([type="submit"]),
+select {
+  font-family: "Work Sans";
+}
+
 .error-message {
   width: fit-content;
   margin: 16px auto;
@@ -224,6 +236,7 @@ input[type="submit"]:not(:disabled):hover,
 #introduction {
   display: flex;
   align-items: center;
+  gap: 7%;
 }
 
 #introduction figure {
@@ -232,8 +245,8 @@ input[type="submit"]:not(:disabled):hover,
 
 #introduction img {
   display: block;
-  /* margin: auto; */
-  width: 80%;
+  width: 474px;
+  height: auto;
 }
 
 #introduction article {
@@ -245,7 +258,6 @@ input[type="submit"]:not(:disabled):hover,
 
 #introduction p {
   margin-bottom: 0.5em;
-  line-height: 1.2rem;
 }
 
 #portfolio {
@@ -265,7 +277,7 @@ input[type="submit"]:not(:disabled):hover,
 }
 
 .gallery figcaption {
-  margin-top: 6px;
+  margin-top: 5px;
 }
 
 .gallery .error-message {
@@ -308,12 +320,16 @@ input[type="submit"]:not(:disabled):hover,
 #contact label,
 #login label,
 .fields-container label {
-  margin: 2em 0 1em 0;
+  margin: 2em 0 0.75em 0;
 }
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   padding: 8px;
+}
+
+#contact p {
+  font-size: 16px;
 }
 
 input[type="submit"],
@@ -372,10 +388,12 @@ footer nav ul {
 
 .filters a {
   display: flex;
+  justify-content: center;
   align-items: center;
   height: 36px;
+  min-width: 100px;
   padding: 0 8px;
-  font-size: 1.2em;
+  font-size: 16px;
   font-family: "Syne";
   font-weight: 700;
   color: #1d6154;
@@ -417,17 +435,18 @@ footer nav ul {
 }
 
 header a.bold {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 #login .link {
   width: fit-content;
   margin: 0 auto;
   text-decoration: underline;
+  font-weight: 500;
 }
 
 #login .link:hover {
-  font-weight: 700;
+  color: #93532f;
 }
 
 #login .error-message {
@@ -513,19 +532,20 @@ button.modal-back {
 }
 
 .modal-form {
-  padding: 30px 50px;
+  padding: 20px 105px;
 }
 
 .modal-form h3 {
   width: fit-content;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 45px auto;
   font-size: 26px;
 }
 
 .modal-form ul {
   display: grid;
   grid-template-columns: repeat(5, calc(20% - 6.4px));
-  gap: 8px;
+  column-gap: 8px;
+  row-gap: 20px;
   padding-bottom: 50px;
   border-bottom: 1px solid #b3b3b3;
 }
@@ -564,8 +584,8 @@ button.modal-back {
 .modal-form .button-add,
 .modal-form .button-next {
   display: block;
-  width: 38%;
-  margin-top: 50px;
+  width: 55%;
+  margin-top: 36px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -579,19 +599,24 @@ button.modal-back {
 .fields-container {
   flex-direction: column;
   display: none;
+  padding-bottom: 3em;
+  border-bottom: 1px solid #b3b3b3;
 }
 
 .upload-container {
+  box-sizing: border-box;
   height: 170px;
   background-color: #e8f1f6;
-  padding: 20px;
+  padding: 15px 20px 20px 20px;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .upload-container label {
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -625,6 +650,20 @@ button.modal-back {
   object-fit: cover;
 }
 
+.upload-container p {
+  font-size: 10px;
+}
+
+.fields-container label[for="title"],
+.fields-container label[for="category"] {
+  margin: 1.5em 0 0.75em 0;
+}
+
+.fields-container input,
+.fields-container select {
+  font-size: 14px;
+}
+
 .fields-container select {
   padding: 0;
   border-left: 16px solid white;
@@ -632,5 +671,9 @@ button.modal-back {
 }
 
 input.button-add:disabled {
-  background-color: #cbd6dc;
+  background-color: #a7a7a7;
+}
+
+input.button-add:disabled:hover {
+  cursor: not-allowed;
 }

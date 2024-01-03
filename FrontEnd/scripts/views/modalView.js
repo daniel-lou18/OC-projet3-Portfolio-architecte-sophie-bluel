@@ -1,6 +1,7 @@
 class ModalView {
   constructor() {
     this.data = null;
+    this.file = null;
     this.addFormRendered = false;
     this.editLink = document.querySelector(".modify");
     this.backdrop = document.querySelector(".backdrop");
@@ -14,9 +15,9 @@ class ModalView {
     this.selectCategory = document.querySelector("select#category");
     this.title = document.querySelector(".modal-title");
     this.back = document.querySelector(".modal-back");
-    this.file = document.querySelector("#file");
+    this.fileInput = document.querySelector("#file");
     this.uploadElement = document.querySelector(".upload-container");
-    this.errorMessage = "🚨 Une erreur est survenue";
+    this.errorMessage = "Une erreur est survenue";
   }
 
   renderModal(data) {
@@ -106,7 +107,7 @@ class ModalView {
         field.addEventListener("input", this.checkInput.bind(this))
       );
       // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
-      this.file.addEventListener("change", this.readImageFile.bind(this));
+      this.fileInput.addEventListener("change", this.readImageFile.bind(this));
     } else {
       // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.
       this.checkInput.call(this);
@@ -133,10 +134,20 @@ class ModalView {
   }
 
   readImageFile() {
-    const file = this.file.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    this.clearErrorMessage();
     try {
+      this.file = this.fileInput.files[0];
+
+      if (!this.file) return;
+      if (this.file.type !== "image/png" && this.file.type !== "image/jpeg")
+        throw new Error(
+          "L'image doit être l'un des types suivants : jpg, jpeg ou png"
+        );
+      if (this.file.size >= 4194304)
+        throw new Error("La taille de votre image doit être inférieure à 4Mo");
+
+      const reader = new FileReader();
+      reader.readAsDataURL(this.file);
       // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
       // la propriété 'result' contient les données sous la forme d'une URL de données
       reader.addEventListener("load", () => {
@@ -148,14 +159,15 @@ class ModalView {
         );
       });
     } catch (err) {
-      console.error(err.message);
+      console.log(this.fileInput.value);
+      this.renderError(err.message, "fileError");
     }
   }
 
   getFormData() {
     // créer un objet formData qu'on pourra mettre dans le body de notre requête POST
     const formData = new FormData(this.form);
-    formData.append("image", this.file.files[0]);
+    formData.append("image", this.file);
     return formData;
   }
 
@@ -165,15 +177,25 @@ class ModalView {
       this.form.querySelectorAll(".field")
     ).every((field) => field.value);
 
+    // vérifier si l'image correspond aux critères
+    this.file = this.fileInput.files[0];
+    const isValidImgFile =
+      this.file &&
+      (this.file.type === "image/png" || this.file.type === "image/jpeg") &&
+      this.file.size < 4194304;
+    console.log(this.file);
+
     // enlever/ajouter l'attribut "disabled"
-    allFieldsCompleted
+    allFieldsCompleted && isValidImgFile
       ? this.buttonValidate.removeAttribute("disabled")
       : this.buttonValidate.setAttribute("disabled", "");
   }
 
-  renderError(errorMessage = this.errorMessage) {
+  renderError(errorMessage = this.errorMessage, type) {
     const markup = `<p class="error-message">${errorMessage}</p`;
-    this.back.insertAdjacentHTML("afterend", markup);
+    type === "fileError"
+      ? this.uploadElement.insertAdjacentHTML("afterend", markup)
+      : this.back.insertAdjacentHTML("afterend", markup);
   }
 
   //////////////////////////////////////////
