@@ -129,17 +129,20 @@
             <ul class="modal-image-list gallery"></ul>
             <div class="fields-container">
               <div class="upload-container">
-                <div class="icon-wrapper">
-                  <i class="fa-regular fa-image"></i>
+                <div class="upload-file">
+                  <div class="icon-wrapper">
+                    <i class="fa-regular fa-image"></i>
+                  </div>
+                  <label for="file">&plus; Ajouter photo</label>
+                  <input
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    id="file"
+                    class="field"
+                  />
+                  <p>jpg, png : 4mo max</p>
                 </div>
-                <label for="file">&plus; Ajouter photo</label>
-                <input
-                  type="file"
-                  accept=".png, .jpg, .jpeg"
-                  id="file"
-                  class="field"
-                />
-                <p>jpg, png : 4mo max</p>
+                <div class="img-wrapper"></div>
               </div>
               <label for="title">Titre</label>
               <input type="text" name="title" id="title" class="field" />

@@ -35,13 +35,21 @@ class ModalView {
     this.imageList.innerHTML = "";
   }
 
-  clearErrorMessage() {
+  clearMessages() {
     this.modal.querySelector(".error-message")?.remove();
+    this.modal.querySelector(".success-message")?.remove();
+  }
+
+  clearInputs() {
+    this.form.reset();
+    this.file = null;
+    this.uploadElement.querySelector(".preview")?.remove();
+    this.uploadElement.querySelector(".upload-file").style.display = "flex";
   }
 
   closeModal() {
     this.backdrop.classList.add("hidden");
-    location.reload();
+    this.renderNavigateBack();
   }
 
   outsideClick(e) {
@@ -84,7 +92,7 @@ class ModalView {
   /// Modale ajouter image ////
 
   renderAddForm(data) {
-    this.clearErrorMessage();
+    this.clearMessages();
     this.data = data;
     this.title.textContent = "Ajout photo";
     this.back.style.visibility = "visible";
@@ -124,7 +132,8 @@ class ModalView {
   }
 
   renderNavigateBack() {
-    this.clearErrorMessage();
+    this.clearMessages();
+    this.clearInputs();
     this.title.textContent = "Galerie photo";
     this.back.style.visibility = "hidden";
     this.imageList.style.display = "grid";
@@ -134,7 +143,7 @@ class ModalView {
   }
 
   readImageFile() {
-    this.clearErrorMessage();
+    this.clearMessages();
     try {
       this.file = this.fileInput.files[0];
 
@@ -151,15 +160,15 @@ class ModalView {
       // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
       // la propriété 'result' contient les données sous la forme d'une URL de données
       reader.addEventListener("load", () => {
-        this.uploadElement.innerHTML = "";
-        this.uploadElement.style.padding = "0";
-        this.uploadElement.insertAdjacentHTML(
-          "beforeend",
-          `<img src=${reader.result} alt="preview" />`
-        );
+        this.uploadElement.querySelector(".upload-file").style.display = "none";
+        this.uploadElement
+          .querySelector(".img-wrapper")
+          .insertAdjacentHTML(
+            "beforeend",
+            `<img src=${reader.result} alt="preview" class="preview" />`
+          );
       });
     } catch (err) {
-      console.log(this.fileInput.value);
       this.renderError(err.message, "fileError");
     }
   }
@@ -172,10 +181,16 @@ class ModalView {
   }
 
   checkInput() {
+    this.clearMessages();
     // vérifier si tous les champs sont remplis
     const allFieldsCompleted = Array.from(
       this.form.querySelectorAll(".field")
     ).every((field) => field.value);
+
+    // vérifier s'il n'y a pas juste des espaces blancs
+    const noWhiteSpace = this.fieldsAddForm
+      .querySelector("input#title")
+      .value.trim();
 
     // vérifier si l'image correspond aux critères
     this.file = this.fileInput.files[0];
@@ -183,10 +198,9 @@ class ModalView {
       this.file &&
       (this.file.type === "image/png" || this.file.type === "image/jpeg") &&
       this.file.size < 4194304;
-    console.log(this.file);
 
     // enlever/ajouter l'attribut "disabled"
-    allFieldsCompleted && isValidImgFile
+    allFieldsCompleted && isValidImgFile && noWhiteSpace
       ? this.buttonValidate.removeAttribute("disabled")
       : this.buttonValidate.setAttribute("disabled", "");
   }
@@ -196,6 +210,11 @@ class ModalView {
     type === "fileError"
       ? this.uploadElement.insertAdjacentHTML("afterend", markup)
       : this.back.insertAdjacentHTML("afterend", markup);
+  }
+
+  renderSucces(successMessage) {
+    const markup = `<p class="success-message">${successMessage}</p`;
+    this.back.insertAdjacentHTML("afterend", markup);
   }
 
   //////////////////////////////////////////

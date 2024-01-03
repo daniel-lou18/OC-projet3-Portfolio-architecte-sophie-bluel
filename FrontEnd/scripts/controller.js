@@ -88,12 +88,14 @@ async function modalController(e) {
 
 async function deleteController(id) {
   try {
+    ModalView.clearMessages();
     await deleteProject(id);
     // Recharger les images dans la modale
     await modalController();
     // Recharger les images sur la page principale en arrière plan
     GalleryView.clearProjects();
     state.projects.forEach((project) => GalleryView.renderProject(project));
+    ModalView.renderSucces("Image supprimée avec succès");
   } catch (err) {
     ModalView.renderError(err.message);
   }
@@ -116,7 +118,14 @@ async function addProjectController(e) {
     e.preventDefault();
     const formData = ModalView.getFormData();
     await addProject(formData);
-    ModalView.closeModal();
+    // Retourner à la première fenêtre de la modale
+    ModalView.renderNavigateBack();
+    // Recharger les images dans la modale
+    await modalController();
+    // Recharger les images sur la page principale en arrière plan
+    ModalView.renderSucces("Image ajoutée avec succès");
+    GalleryView.clearProjects();
+    state.projects.forEach((project) => GalleryView.renderProject(project));
   } catch (err) {
     ModalView.renderError(err.message);
   }

@@ -233,6 +233,11 @@ select {
   color: #dc143c;
 }
 
+.success-message {
+  color: #1d6154;
+  font-weight: 500;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -413,7 +418,7 @@ footer nav ul {
   display: flex;
   width: fit-content;
   margin: 125px auto 0 auto;
-  gap: 16px;
+  gap: 30px;
   align-items: center;
 }
 
@@ -605,10 +610,15 @@ button.modal-back {
 
 .upload-container {
   box-sizing: border-box;
-  height: 170px;
   background-color: #e8f1f6;
-  padding: 15px 20px 20px 20px;
   border-radius: 3px;
+  height: 170px;
+}
+
+.upload-file {
+  box-sizing: inherit;
+  height: 100%;
+  padding: 15px 20px 20px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -642,6 +652,12 @@ button.modal-back {
 
 .upload-container i {
   color: #cbd6dc;
+}
+
+.upload-container .img-wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100%;
 }
 
 .upload-container img {
