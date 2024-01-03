@@ -115,6 +115,7 @@ class ModalView {
 
   renderProjectCategory(cat, idx) {
     // les valeurs des options doivent être > 0
+    cat = cat.replace("Hotels", "Hôtels");
     const markup = `
       <option value=${idx + 1}>${cat}</option>
     `;
@@ -140,6 +141,7 @@ class ModalView {
       // la propriété 'result' contient les données sous la forme d'une URL de données
       reader.addEventListener("load", () => {
         this.uploadElement.innerHTML = "";
+        this.uploadElement.style.padding = "0";
         this.uploadElement.insertAdjacentHTML(
           "beforeend",
           `<img src=${reader.result} alt="preview" />`

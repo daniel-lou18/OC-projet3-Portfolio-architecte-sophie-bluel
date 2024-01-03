@@ -416,6 +416,10 @@ footer nav ul {
   justify-content: space-between;
 }
 
+header a.bold {
+  font-weight: 700;
+}
+
 #login .link {
   width: fit-content;
   margin: 0 auto;
@@ -578,6 +582,7 @@ button.modal-back {
 }
 
 .upload-container {
+  height: 170px;
   background-color: #e8f1f6;
   padding: 20px;
   border-radius: 3px;
@@ -615,9 +620,9 @@ button.modal-back {
 }
 
 .upload-container img {
-  width: 50%;
-  height: auto;
-  margin: -20px 0;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
 }
 
 .fields-container select {

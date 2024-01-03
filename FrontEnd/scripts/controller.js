@@ -27,6 +27,7 @@ async function galleryController() {
 async function categoriesController() {
   try {
     await loadCategories();
+    // convertir en liste car la méthode forEach pour les objets Set ne permet pas d'utiliser le 2ème paramètre index
     Array.from(state.categories).forEach((cat, idx) =>
       GalleryView.renderCategory(cat, idx)
     );

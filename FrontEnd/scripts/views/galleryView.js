@@ -31,11 +31,9 @@ class GalleryView {
     if (idx === 0) this.filtersList.insertAdjacentHTML("beforeend", markupTous);
     const markup = `
         <li class="filter-item">
-            <a class="filter-link" href="#filter-${this.data}">${
-      this.data.includes("Hotels")
-        ? this.data.replaceAll("Hotels", "Hôtels")
-        : this.data
-    }</a>
+            <a class="filter-link" href="#filter-${
+              this.data
+            }">${this.data.replace("Hotels", "Hôtels")}</a>
         </li>`;
     this.filtersList.insertAdjacentHTML("beforeend", markup);
 
