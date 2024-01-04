@@ -95,7 +95,7 @@ async function deleteController(id) {
     // Recharger les images sur la page principale en arrière plan
     GalleryView.clearProjects();
     state.projects.forEach((project) => GalleryView.renderProject(project));
-    ModalView.renderSucces("Image supprimée avec succès");
+    ModalView.renderSucces("L'image a été supprimée de la galerie");
   } catch (err) {
     ModalView.renderError(err.message);
   }
@@ -123,7 +123,7 @@ async function addProjectController(e) {
     // Recharger les images dans la modale
     await modalController();
     // Recharger les images sur la page principale en arrière plan
-    ModalView.renderSucces("Image ajoutée avec succès");
+    ModalView.renderSucces("L'image a été ajoutée à la galerie");
     GalleryView.clearProjects();
     state.projects.forEach((project) => GalleryView.renderProject(project));
   } catch (err) {

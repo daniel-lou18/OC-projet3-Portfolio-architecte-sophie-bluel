@@ -45,6 +45,9 @@ class ModalView {
     this.file = null;
     this.uploadElement.querySelector(".preview")?.remove();
     this.uploadElement.querySelector(".upload-file").style.display = "flex";
+    Array.from(this.form.querySelectorAll("svg")).forEach(
+      (elem) => (elem.style.display = "none")
+    );
   }
 
   closeModal() {
@@ -72,23 +75,6 @@ class ModalView {
     this.imageList.insertAdjacentHTML("beforeend", markup);
   }
 
-  ////////////////////////////////////////////////
-
-  addHandlerRenderModal(handler) {
-    this.editLink.addEventListener("click", handler);
-  }
-
-  addHandlerDeleteProject(handler) {
-    // la fonction de rappel est asynchrone donc il faut la mettre dans une autre fonction async pour pouvoir utiliser await
-    Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
-      elem.addEventListener("click", async () => await handler(elem.dataset.id))
-    );
-  }
-
-  addHandlerRenderAddForm(handler) {
-    this.buttonNext.addEventListener("click", handler);
-  }
-
   /// Modale ajouter image ////
 
   renderAddForm(data) {
@@ -112,13 +98,18 @@ class ModalView {
       );
       /// Ajouter la fonction aux balises input et select du formulaire pour vérifier si tous les champs sont remplis
       Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
-        field.addEventListener("input", this.checkInput.bind(this))
+        field.addEventListener("input", this.checkAllInputs.bind(this))
       );
       // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
       this.fileInput.addEventListener("change", this.readImageFile.bind(this));
+      // Supprimer la valeur de l'élément input à chaque fois que l'utilisateur clique dessus
+      this.fileInput.addEventListener(
+        "click",
+        () => (this.fileInput.value = null)
+      );
     } else {
       // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.
-      this.checkInput.call(this);
+      this.checkAllInputs.call(this);
     }
   }
 
@@ -142,18 +133,19 @@ class ModalView {
     this.buttonValidate.classList.add("hidden");
   }
 
+  checkImageFile() {
+    if (this.file.type !== "image/png" && this.file.type !== "image/jpeg")
+      throw new Error("L'image doit être de type jpg, jpeg ou png");
+    if (this.file.size >= 4194304)
+      throw new Error("La taille de votre image doit être inférieure à 4Mo");
+  }
+
   readImageFile() {
     this.clearMessages();
     try {
       this.file = this.fileInput.files[0];
-
       if (!this.file) return;
-      if (this.file.type !== "image/png" && this.file.type !== "image/jpeg")
-        throw new Error(
-          "L'image doit être l'un des types suivants : jpg, jpeg ou png"
-        );
-      if (this.file.size >= 4194304)
-        throw new Error("La taille de votre image doit être inférieure à 4Mo");
+      this.checkImageFile();
 
       const reader = new FileReader();
       reader.readAsDataURL(this.file);
@@ -180,27 +172,42 @@ class ModalView {
     return formData;
   }
 
-  checkInput() {
-    this.clearMessages();
-    // vérifier si tous les champs sont remplis
-    const allFieldsCompleted = Array.from(
-      this.form.querySelectorAll(".field")
-    ).every((field) => field.value);
-
-    // vérifier s'il n'y a pas juste des espaces blancs
-    const noWhiteSpace = this.fieldsAddForm
-      .querySelector("input#title")
-      .value.trim();
-
-    // vérifier si l'image correspond aux critères
+  isValidImgFile() {
     this.file = this.fileInput.files[0];
-    const isValidImgFile =
+    if (
+      this.fileInput.value &&
       this.file &&
       (this.file.type === "image/png" || this.file.type === "image/jpeg") &&
-      this.file.size < 4194304;
+      this.file.size < 4194304
+    )
+      return { element: this.fileInput, isValid: true };
+    else return { element: this.fileInput, isValid: false };
+  }
 
-    // enlever/ajouter l'attribut "disabled"
-    allFieldsCompleted && isValidImgFile && noWhiteSpace
+  isValidInput(selector) {
+    const element = this.form.querySelector(selector);
+    if (element.value.trim()) return { element, isValid: true };
+    else return { element, isValid: false };
+  }
+
+  checkAllInputs() {
+    const inputImage = this.isValidImgFile();
+    const inputImageCheck =
+      inputImage.element.closest(".upload-container").lastElementChild;
+    const inputTitle = this.isValidInput(".input-title");
+    const selectCategory = this.isValidInput(".select-category");
+
+    inputImage.isValid
+      ? (inputImageCheck.style.display = "block")
+      : (inputImageCheck.style.display = "none");
+
+    [inputTitle, selectCategory].forEach((field) =>
+      field.isValid
+        ? (field.element.nextElementSibling.style.display = "block")
+        : (field.element.nextElementSibling.style.display = "none")
+    );
+
+    inputImage.isValid && inputTitle.isValid && selectCategory.isValid
       ? this.buttonValidate.removeAttribute("disabled")
       : this.buttonValidate.setAttribute("disabled", "");
   }
@@ -217,7 +224,22 @@ class ModalView {
     this.back.insertAdjacentHTML("afterend", markup);
   }
 
-  //////////////////////////////////////////
+  // Méthodes addHandler
+
+  addHandlerRenderModal(handler) {
+    this.editLink.addEventListener("click", handler);
+  }
+
+  addHandlerDeleteProject(handler) {
+    // la fonction de rappel est asynchrone donc il faut la mettre dans une autre fonction async pour pouvoir utiliser await
+    Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
+      elem.addEventListener("click", async () => await handler(elem.dataset.id))
+    );
+  }
+
+  addHandlerRenderAddForm(handler) {
+    this.buttonNext.addEventListener("click", handler);
+  }
 
   addHandlerRenderNavigateBack(handler) {
     this.back.addEventListener("click", handler);
