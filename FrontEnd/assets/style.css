@@ -616,12 +616,15 @@ button.modal-back {
   display: none;
   height: 18px;
   width: 18px;
-  stroke: #1d6154;
-  stroke-width: 3;
   position: absolute;
   right: -10%;
   top: 50%;
   transform: translateY(-50%);
+  stroke: #1d6154;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .upload-container {

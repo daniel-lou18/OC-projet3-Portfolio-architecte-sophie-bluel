@@ -77,9 +77,8 @@ class ModalView {
 
   /// Modale ajouter image ////
 
-  renderAddForm(data) {
+  renderForm() {
     this.clearMessages();
-    this.data = data;
     this.title.textContent = "Ajout photo";
     this.back.style.visibility = "visible";
     this.imageList.style.display = "none";
@@ -87,19 +86,10 @@ class ModalView {
     this.buttonNext.style.display = "none";
     this.buttonValidate.classList.remove("hidden");
     this.checkIfRendered();
-    this.addFormRendered = true;
   }
 
   checkIfRendered() {
     if (!this.addFormRendered) {
-      /// Pour éviter d'ajouter les catégories au menu select quand on revient en arrière et on clique de nouveau sur le bouton "Ajouter une photo"
-      this.data.forEach((cat, idx) =>
-        this.renderProjectCategory.call(this, cat, idx)
-      );
-      /// Ajouter la fonction aux balises input et select du formulaire pour vérifier si tous les champs sont remplis
-      Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
-        field.addEventListener("input", this.checkAllInputs.bind(this))
-      );
       // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
       this.fileInput.addEventListener("change", this.readImageFile.bind(this));
       // Supprimer la valeur de l'élément input à chaque fois que l'utilisateur clique dessus
@@ -107,19 +97,19 @@ class ModalView {
         "click",
         () => (this.fileInput.value = null)
       );
-    } else {
-      // Il ne faut pas ajouter les listeners si la deuxième fenêtre a déjà été générée. Par contre, il faut revérifier les inputs.
-      this.checkAllInputs.call(this);
     }
   }
 
-  renderProjectCategory(cat, idx) {
+  renderProjectCategories(data) {
+    this.data = data;
     // les valeurs des options doivent être > 0
-    cat = cat.replace("Hotels", "Hôtels");
-    const markup = `
-      <option value=${idx + 1}>${cat}</option>
-    `;
-    this.selectCategory.insertAdjacentHTML("beforeend", markup);
+    this.data.forEach((cat, idx) => {
+      cat = cat.replace("Hotels", "Hôtels");
+      const markup = `
+        <option value=${idx + 1}>${cat}</option>
+      `;
+      this.selectCategory.insertAdjacentHTML("beforeend", markup);
+    });
   }
 
   renderNavigateBack() {
@@ -237,8 +227,14 @@ class ModalView {
     );
   }
 
-  addHandlerRenderAddForm(handler) {
+  addHandlerRenderForm(handler) {
     this.buttonNext.addEventListener("click", handler);
+  }
+
+  addHandlerCheckInputs(handler) {
+    Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
+      field.addEventListener("input", handler)
+    );
   }
 
   addHandlerRenderNavigateBack(handler) {

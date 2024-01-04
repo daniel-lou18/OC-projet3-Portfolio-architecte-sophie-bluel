@@ -10,32 +10,38 @@ class GalleryView {
     this.galleryElement.innerHTML = "";
   }
 
-  renderProject(data) {
+  renderProjects(data) {
     this.data = data;
-    const markup = `
-        <figure>
-            <img src=${this.data.imageUrl} alt=${this.data.title} />
-            <figcaption>${this.data.title}</figcaption>
-        </figure>
-    `;
-    this.galleryElement.insertAdjacentHTML("beforeend", markup);
+    this.data.forEach((project) => {
+      const markup = `
+          <figure>
+              <img src=${project.imageUrl} alt=${project.title} />
+              <figcaption>${project.title}</figcaption>
+          </figure>
+      `;
+      this.galleryElement.insertAdjacentHTML("beforeend", markup);
+    });
   }
 
-  renderCategory(data, idx) {
+  renderCategories(data) {
     this.data = data;
-    const markupTous = `
-        <li class="filter-item filter-active">
-            <a class="filter-link filter-active" href="#filter-tous">Tous</a>
-        </li>`;
-    // On ajoute le bouton "Tous" à la première itération de la boucle : renderCategory sera utilisé avec forEach
-    if (idx === 0) this.filtersList.insertAdjacentHTML("beforeend", markupTous);
-    const markup = `
-        <li class="filter-item">
-            <a class="filter-link" href="#filter-${
-              this.data
-            }">${this.data.replace("Hotels", "Hôtels")}</a>
-        </li>`;
-    this.filtersList.insertAdjacentHTML("beforeend", markup);
+    this.data.forEach((cat, idx) => {
+      const markupTous = `
+          <li class="filter-item filter-active">
+              <a class="filter-link filter-active" href="#filter-tous">Tous</a>
+          </li>`;
+      // On ajoute le bouton "Tous" à la première itération de la boucle : renderCategory sera utilisé avec forEach
+      if (idx === 0)
+        this.filtersList.insertAdjacentHTML("beforeend", markupTous);
+      const markup = `
+          <li class="filter-item">
+              <a class="filter-link" href="#filter-${cat}">${cat.replace(
+        "Hotels",
+        "Hôtels"
+      )}</a>
+          </li>`;
+      this.filtersList.insertAdjacentHTML("beforeend", markup);
+    });
 
     // Code pour ajouter la classe "active" quand on clique sur une catégorie
     this.filtersList.addEventListener("click", (e) => {

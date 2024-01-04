@@ -18,7 +18,7 @@ import ModalView from "./views/modalView.js";
 async function galleryController() {
   try {
     await loadProjects();
-    state.projects.forEach((project) => GalleryView.renderProject(project));
+    GalleryView.renderProjects(state.projects);
   } catch (err) {
     GalleryView.renderGalleryError(err.message);
   }
@@ -27,10 +27,8 @@ async function galleryController() {
 async function categoriesController() {
   try {
     await loadCategories();
-    // convertir en liste car la méthode forEach pour les objets Set ne permet pas d'utiliser le 2ème paramètre index
-    Array.from(state.categories).forEach((cat, idx) =>
-      GalleryView.renderCategory(cat, idx)
-    );
+    // convertir Set en liste car la méthode forEach pour les objets Set ne permet pas d'utiliser le 2ème paramètre index
+    GalleryView.renderCategories(Array.from(state.categories));
   } catch (err) {
     GalleryView.renderCategoriesError(err.message);
   }
@@ -44,7 +42,7 @@ async function filterController() {
   // Recharger toutes les images quand l'utilisateur clique sur 'tous'
   if (hashValue.endsWith("-tous")) return await galleryController();
   const filteredProjects = getFilteredProjects(hashValue);
-  filteredProjects.forEach((project) => GalleryView.renderProject(project));
+  GalleryView.renderProjects(filteredProjects);
 }
 
 async function loginController(e) {
@@ -86,15 +84,19 @@ async function modalController(e) {
   }
 }
 
+function updateGallery() {
+  // Recharger les images sur la page principale en arrière plan
+  GalleryView.clearProjects();
+  GalleryView.renderProjects(state.projects);
+}
+
 async function deleteController(id) {
   try {
     ModalView.clearMessages();
     await deleteProject(id);
     // Recharger les images dans la modale
     await modalController();
-    // Recharger les images sur la page principale en arrière plan
-    GalleryView.clearProjects();
-    state.projects.forEach((project) => GalleryView.renderProject(project));
+    updateGallery();
     ModalView.renderSucces("L'image a été supprimée de la galerie");
   } catch (err) {
     ModalView.renderError(err.message);
@@ -102,14 +104,25 @@ async function deleteController(id) {
 }
 
 // fonction qui gère la deuxième fenêtre de la modale
-function addFormController(e) {
+function formController(e) {
   e.preventDefault();
-  ModalView.renderAddForm(Array.from(state.categories));
+  ModalView.renderForm();
+  if (!ModalView.addFormRendered) {
+    /// Pour éviter d'ajouter les catégories au menu select quand on revient en arrière et on clique de nouveau sur le bouton "Ajouter une photo"
+    ModalView.renderProjectCategories(Array.from(state.categories));
+    ModalView.addFormRendered = true;
+  }
+}
+
+function inputController() {
+  ModalView.checkAllInputs();
 }
 
 async function navigateBackController(e) {
   e.preventDefault();
+  // Retourner à la première fenêtre de la modale
   ModalView.renderNavigateBack();
+  // Recharger les images dans la modale
   await modalController();
 }
 
@@ -118,14 +131,9 @@ async function addProjectController(e) {
     e.preventDefault();
     const formData = ModalView.getFormData();
     await addProject(formData);
-    // Retourner à la première fenêtre de la modale
-    ModalView.renderNavigateBack();
-    // Recharger les images dans la modale
-    await modalController();
-    // Recharger les images sur la page principale en arrière plan
+    await navigateBackController(e);
     ModalView.renderSucces("L'image a été ajoutée à la galerie");
-    GalleryView.clearProjects();
-    state.projects.forEach((project) => GalleryView.renderProject(project));
+    updateGallery();
   } catch (err) {
     ModalView.renderError(err.message);
   }
@@ -140,7 +148,8 @@ function initHomePage() {
   UserView.addHandlerRenderLoggedIn(userController);
   UserView.addHandlerRenderLoggedOut(logoutController);
   ModalView.addHandlerRenderModal(modalController);
-  ModalView.addHandlerRenderAddForm(addFormController);
+  ModalView.addHandlerRenderForm(formController);
+  ModalView.addHandlerCheckInputs(inputController);
   ModalView.addHandlerRenderNavigateBack(navigateBackController);
   ModalView.addHandlerAddProject(addProjectController);
 }
