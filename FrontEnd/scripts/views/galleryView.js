@@ -27,7 +27,7 @@ class GalleryView {
     this.data = data;
     this.data.forEach((cat, idx) => {
       const markupTous = `
-          <li class="filter-item filter-active">
+          <li class="filter-item">
               <a class="filter-link filter-active" href="#filter-tous">Tous</a>
           </li>`;
       // On ajoute le bouton "Tous" à la première itération de la boucle : renderCategory sera utilisé avec forEach
@@ -42,7 +42,9 @@ class GalleryView {
           </li>`;
       this.filtersList.insertAdjacentHTML("beforeend", markup);
     });
+  }
 
+  showSelectedFilter() {
     // Code pour ajouter la classe "active" quand on clique sur une catégorie
     this.filtersList.addEventListener("click", (e) => {
       if (!e.target.closest(".filter-link")) return;

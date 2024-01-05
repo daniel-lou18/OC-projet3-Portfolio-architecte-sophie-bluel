@@ -66,7 +66,6 @@ export async function login(credentials) {
     // Sauvegarder l'adresse mail, mot de passe, token et userId en format JSON dans le localStorage
     localStorage.setItem("user", JSON.stringify({ ...credentials, ...data }));
   } catch (err) {
-    console.error(err.message);
     throw err;
   }
 }
@@ -97,7 +96,6 @@ export async function deleteProject(id) {
     if (!res.ok) throw new Error("Échec de la suppression de la photo");
     console.log(res);
   } catch (err) {
-    console.error(err.message);
     throw err;
   }
 }
@@ -111,14 +109,17 @@ export async function addProject(formData) {
       },
       body: formData,
     });
-    if (res.status === 400) throw new Error("Échec de l'ajout de la photo.");
+    if (res.status === 400)
+      throw new Error(
+        "Échec de l'ajout de la photo. Données saisies incorrectes."
+      );
     if (res.status === 401)
       throw new Error("Vous n'avez pas l'autorisation d'ajouter une photo.");
     if (!res.ok) throw new Error("Échec de l'ajout de la photo.");
     const data = await res.json();
     console.log(data);
   } catch (err) {
-    console.error(err.message);
+    console.log(err.message);
     throw err;
   }
 }

@@ -9,7 +9,6 @@ class LoginView {
   getUserCredentials() {
     const email = this.parentElement.children[1].value;
     const password = this.parentElement.children[3].value;
-    console.log(email, password);
     return { email, password };
   }
 

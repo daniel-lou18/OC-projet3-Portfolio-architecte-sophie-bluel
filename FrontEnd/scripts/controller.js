@@ -29,6 +29,7 @@ async function categoriesController() {
     await loadCategories();
     // convertir Set en liste car la méthode forEach pour les objets Set ne permet pas d'utiliser le 2ème paramètre index
     GalleryView.renderCategories(Array.from(state.categories));
+    GalleryView.showSelectedFilter();
   } catch (err) {
     GalleryView.renderCategoriesError(err.message);
   }
@@ -90,7 +91,7 @@ async function deleteController(id) {
     // Recharger les images dans la modale
     await modalController();
     updateGallery();
-    ModalView.renderSucces("L'image a été supprimée de la galerie");
+    ModalView.renderSucces("Image supprimée de la galerie");
   } catch (err) {
     ModalView.renderError(err.message);
   }
@@ -119,7 +120,7 @@ async function addProjectController(e) {
     const formData = ModalView.getFormData();
     await addProject(formData);
     await navigateBackController(e);
-    ModalView.renderSucces("L'image a été ajoutée à la galerie");
+    ModalView.renderSucces("Image ajoutée à la galerie");
     updateGallery();
   } catch (err) {
     ModalView.renderError(err.message);

@@ -197,7 +197,6 @@ nav li {
 
 nav li:not(.bold):hover {
   cursor: pointer;
-  text-stroke: 1px black;
   -webkit-text-stroke: 1px black;
 }
 
