@@ -22,6 +22,7 @@ class ModalView {
 
   renderModal() {
     this.clearProjects();
+    this.clearMessages();
     this.backdrop.classList.remove("hidden");
   }
 
@@ -104,9 +105,14 @@ class ModalView {
     this.fieldsAddForm.style.display = "none";
     this.buttonNext.style.display = "block";
     this.buttonValidate.classList.add("hidden");
+    this.buttonValidate.setAttribute("disabled", "");
   }
 
   checkImageFile() {
+    this.clearMessages();
+    this.file = this.fileInput.files[0];
+    if (!this.file) return;
+
     if (this.file.type !== "image/png" && this.file.type !== "image/jpeg")
       throw new Error("L'image doit être de type jpg, jpeg ou png");
     if (this.file.size >= 4194304)
@@ -114,28 +120,20 @@ class ModalView {
   }
 
   readImageFile() {
-    this.clearMessages();
-    try {
-      this.file = this.fileInput.files[0];
-      if (!this.file) return;
-      this.checkImageFile();
-
-      const reader = new FileReader();
-      reader.readAsDataURL(this.file);
-      // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
-      // la propriété 'result' contient les données sous la forme d'une URL de données
-      reader.addEventListener("load", () => {
-        this.uploadElement.querySelector(".upload-file").style.display = "none";
-        this.uploadElement
-          .querySelector(".img-wrapper")
-          .insertAdjacentHTML(
-            "beforeend",
-            `<img src=${reader.result} alt="preview" class="preview" />`
-          );
-      });
-    } catch (err) {
-      this.renderError(err.message, "fileError");
-    }
+    if (!this.file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    // l'évènement "load" est déclenché après une lecture réussie du fichier par la méthode readAsDataURL
+    // la propriété 'result' contient les données sous la forme d'une URL de données
+    reader.addEventListener("load", () => {
+      this.uploadElement.querySelector(".upload-file").style.display = "none";
+      this.uploadElement
+        .querySelector(".img-wrapper")
+        .insertAdjacentHTML(
+          "beforeend",
+          `<img src=${reader.result} alt="preview" class="preview" />`
+        );
+    });
   }
 
   getFormData() {

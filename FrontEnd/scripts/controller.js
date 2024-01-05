@@ -83,12 +83,6 @@ async function modalController(e) {
   }
 }
 
-function updateGallery() {
-  // Recharger les images sur la page principale en arrière plan
-  GalleryView.clearProjects();
-  GalleryView.renderProjects(state.projects);
-}
-
 async function deleteController(id) {
   try {
     ModalView.clearMessages();
@@ -102,6 +96,12 @@ async function deleteController(id) {
   }
 }
 
+function updateGallery() {
+  // Recharger les images sur la page principale en arrière plan
+  GalleryView.clearProjects();
+  GalleryView.renderProjects(state.projects);
+}
+
 // fonction qui gère la deuxième fenêtre de la modale
 function formController(e) {
   e.preventDefault();
@@ -113,12 +113,30 @@ function formController(e) {
   }
 }
 
+async function addProjectController(e) {
+  try {
+    e.preventDefault();
+    const formData = ModalView.getFormData();
+    await addProject(formData);
+    await navigateBackController(e);
+    ModalView.renderSucces("L'image a été ajoutée à la galerie");
+    updateGallery();
+  } catch (err) {
+    ModalView.renderError(err.message);
+  }
+}
+
 function inputController() {
   ModalView.checkAllInputs();
 }
 
 function imageFileController() {
-  ModalView.readImageFile();
+  try {
+    ModalView.checkImageFile();
+    ModalView.readImageFile();
+  } catch (err) {
+    ModalView.renderError(err.message, "fileError");
+  }
 }
 
 function closeButtonController() {
@@ -137,19 +155,6 @@ async function navigateBackController(e) {
   ModalView.renderNavigateBack();
   // Recharger les images dans la modale
   await modalController();
-}
-
-async function addProjectController(e) {
-  try {
-    e.preventDefault();
-    const formData = ModalView.getFormData();
-    await addProject(formData);
-    await navigateBackController(e);
-    ModalView.renderSucces("L'image a été ajoutée à la galerie");
-    updateGallery();
-  } catch (err) {
-    ModalView.renderError(err.message);
-  }
 }
 
 // Connecter les controllers aux eventlisteners des views :
