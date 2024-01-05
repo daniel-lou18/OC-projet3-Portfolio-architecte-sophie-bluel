@@ -20,15 +20,27 @@ class ModalView {
     this.errorMessage = "Une erreur est survenue";
   }
 
-  renderModal(data) {
+  renderModal() {
     this.clearProjects();
-    this.data = data;
     this.backdrop.classList.remove("hidden");
-    // Utiliser les méthodes bind et call pour attacher la valeur de "this" à l'instance de la classe car
-    // la valeur de this dans une fonction de retour d'un eventlistener sera la balise à laquelle le listener sera attachée
-    this.closeElement.addEventListener("click", this.closeModal.bind(this));
-    this.backdrop.addEventListener("click", this.outsideClick.bind(this));
-    this.data.forEach((project) => this.renderProject.call(this, project));
+  }
+
+  renderProjects(data) {
+    this.data = data;
+    this.data.forEach((project) => {
+      const markup = `
+          <li data-id=${project.id}>
+              <figure>
+                  <img src=${project.imageUrl} alt=${project.title} />
+              </figure>
+              <div class="icon-wrapper">
+                  <i class="fa-solid fa-trash-can fa-sm"></i>
+              </div>
+          </li>
+
+          `;
+      this.imageList.insertAdjacentHTML("beforeend", markup);
+    });
   }
 
   clearProjects() {
@@ -52,27 +64,11 @@ class ModalView {
 
   closeModal() {
     this.backdrop.classList.add("hidden");
-    this.renderNavigateBack();
   }
 
-  outsideClick(e) {
-    if (this.modal.contains(e.target)) return;
-    this.closeModal();
-  }
-
-  renderProject(project) {
-    const markup = `
-        <li data-id=${project.id}>
-            <figure>
-                <img src=${project.imageUrl} alt=${project.title} />
-            </figure>
-            <div class="icon-wrapper">
-                <i class="fa-solid fa-trash-can fa-sm"></i>
-            </div>
-        </li>
-
-        `;
-    this.imageList.insertAdjacentHTML("beforeend", markup);
+  isOutsideClick(e) {
+    if (this.modal.contains(e.target)) return false;
+    return true;
   }
 
   /// Modale ajouter image ////
@@ -85,19 +81,6 @@ class ModalView {
     this.fieldsAddForm.style.display = "flex";
     this.buttonNext.style.display = "none";
     this.buttonValidate.classList.remove("hidden");
-    this.checkIfRendered();
-  }
-
-  checkIfRendered() {
-    if (!this.addFormRendered) {
-      // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
-      this.fileInput.addEventListener("change", this.readImageFile.bind(this));
-      // Supprimer la valeur de l'élément input à chaque fois que l'utilisateur clique dessus
-      this.fileInput.addEventListener(
-        "click",
-        () => (this.fileInput.value = null)
-      );
-    }
   }
 
   renderProjectCategories(data) {
@@ -235,6 +218,24 @@ class ModalView {
     Array.from(this.form.querySelectorAll(".field")).forEach((field) =>
       field.addEventListener("input", handler)
     );
+  }
+
+  addHandlerImageFile(handler) {
+    // Ajouter la fonction qui permet de lire et afficher la preview de l'image à l'input de type 'file'
+    this.fileInput.addEventListener("change", handler);
+    // Supprimer la valeur de l'élément input à chaque fois que l'utilisateur clique dessus
+    this.fileInput.addEventListener(
+      "click",
+      () => (this.fileInput.value = null)
+    );
+  }
+
+  addHandlerCloseButton(handler) {
+    this.closeElement.addEventListener("click", handler);
+  }
+
+  addHandlerOutsideClick(handler) {
+    this.backdrop.addEventListener("click", handler);
   }
 
   addHandlerRenderNavigateBack(handler) {

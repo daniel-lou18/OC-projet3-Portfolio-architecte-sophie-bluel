@@ -64,7 +64,6 @@ function logoutController() {
 
 function userController() {
   loadUser();
-  console.log(state.user);
   if (!state.user) return;
   UserView.renderLoggedIn();
 }
@@ -75,8 +74,8 @@ async function modalController(e) {
     // "?" car cela permet d'appeller la fonction modalController sans fournir de paramètre
     e?.preventDefault();
     await loadProjects();
-    // Afficher les images
-    ModalView.renderModal(state.projects);
+    ModalView.renderModal();
+    ModalView.renderProjects(state.projects);
     // Attacher le controller aux images (fonctionnalité suppression)
     ModalView.addHandlerDeleteProject(deleteController);
   } catch (err) {
@@ -118,9 +117,23 @@ function inputController() {
   ModalView.checkAllInputs();
 }
 
+function imageFileController() {
+  ModalView.readImageFile();
+}
+
+function closeButtonController() {
+  ModalView.closeModal();
+  ModalView.renderNavigateBack();
+}
+
+function outsideClickController(e) {
+  if (!ModalView.isOutsideClick(e)) return;
+  ModalView.closeModal();
+  ModalView.renderNavigateBack();
+}
+
 async function navigateBackController(e) {
   e.preventDefault();
-  // Retourner à la première fenêtre de la modale
   ModalView.renderNavigateBack();
   // Recharger les images dans la modale
   await modalController();
@@ -139,7 +152,8 @@ async function addProjectController(e) {
   }
 }
 
-// Connecter les controllers aux views : les méthodes 'addHandler" sont les publishers et les controllers (fonctions de rappel) sont les subscribers
+// Connecter les controllers aux eventlisteners des views :
+// les méthodes 'addHandler" sont les publishers alors que les controllers (fonctions de rappel) sont les subscribers
 
 function initHomePage() {
   GalleryView.addHandlerRenderProjects(galleryController);
@@ -150,6 +164,9 @@ function initHomePage() {
   ModalView.addHandlerRenderModal(modalController);
   ModalView.addHandlerRenderForm(formController);
   ModalView.addHandlerCheckInputs(inputController);
+  ModalView.addHandlerImageFile(imageFileController);
+  ModalView.addHandlerCloseButton(closeButtonController);
+  ModalView.addHandlerOutsideClick(outsideClickController);
   ModalView.addHandlerRenderNavigateBack(navigateBackController);
   ModalView.addHandlerAddProject(addProjectController);
 }
