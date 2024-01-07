@@ -31,12 +31,12 @@ class ModalView {
     this.data.forEach((project) => {
       const markup = `
           <li data-id=${project.id}>
-              <figure>
-                  <img src=${project.imageUrl} alt=${project.title} />
-              </figure>
-              <div class="icon-wrapper">
-                  <i class="fa-solid fa-trash-can fa-sm"></i>
-              </div>
+            <div class="icon-wrapper">
+            <i class="fa-solid fa-trash-can fa-sm"></i>
+            </div>
+            <figure>
+                <img src=${project.imageUrl} alt=${project.title} />
+            </figure>
           </li>
 
           `;
@@ -203,8 +203,12 @@ class ModalView {
 
   addHandlerDeleteProject(handler) {
     // la fonction de rappel est asynchrone donc il faut la mettre dans une autre fonction async pour pouvoir utiliser await
-    Array.from(this.imageList.querySelectorAll("li")).forEach((elem) =>
-      elem.addEventListener("click", async () => await handler(elem.dataset.id))
+    Array.from(this.imageList.querySelectorAll(".icon-wrapper")).forEach(
+      (elem) =>
+        elem.addEventListener(
+          "click",
+          async () => await handler(elem.closest("li").dataset.id)
+        )
     );
   }
 

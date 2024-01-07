@@ -58,9 +58,8 @@ export async function login(credentials) {
       },
       body: JSON.stringify(credentials),
     });
-    if (res.status === 401)
+    if (res.status === 401 || res.status === 404)
       throw new Error("Mot de passe ou adresse email invalide.");
-    if (res.status === 404) throw new Error("Compte utilisateur inconnu.");
     if (!res.ok) throw new Error("Erreur lors de la connexion à votre compte.");
     const data = await res.json();
     // Sauvegarder l'adresse mail, mot de passe, token et userId en format JSON dans le localStorage

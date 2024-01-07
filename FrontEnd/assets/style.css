@@ -577,13 +577,29 @@ button.modal-back {
   height: 103px;
   position: relative;
   transition: 0.2s ease;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  transition: 0.2s ease-out;
 }
 
-.modal-form li:hover {
+.modal-form figure {
+  height: 100%;
+}
+
+.modal-form ul .icon-wrapper {
+  transition: transform 0.1s ease-out;
+}
+
+.modal-form ul .icon-wrapper:hover {
   cursor: pointer;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
-  transform: scale(1.03);
+  transform: scale(1.3);
+}
+
+.modal-form .icon-wrapper:hover + figure {
+  filter: blur(2px) grayscale(60%);
+}
+
+.modal-form li:has(.icon-wrapper:hover) {
+  box-shadow: none;
 }
 
 .modal-form ul img {
@@ -596,6 +612,7 @@ button.modal-back {
 
 .modal-image-list .icon-wrapper {
   position: absolute;
+  z-index: 5;
   top: 6px;
   right: 6px;
   width: 17px;
