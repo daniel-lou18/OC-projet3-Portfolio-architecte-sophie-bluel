@@ -32,10 +32,10 @@ class ModalView {
       const markup = `
           <li data-id=${project.id}>
             <div class="icon-wrapper">
-            <i class="fa-solid fa-trash-can fa-sm"></i>
+              <i class="fa-solid fa-trash-can fa-sm"></i>
             </div>
             <figure>
-                <img src=${project.imageUrl} alt=${project.title} />
+              <img src=${project.imageUrl} alt=${project.title} />
             </figure>
           </li>
 

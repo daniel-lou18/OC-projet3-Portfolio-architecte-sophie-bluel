@@ -24,7 +24,7 @@ class UserView {
   }
 
   addHandlerRenderLoggedIn(handler) {
-    window.addEventListener("load", handler);
+    document.addEventListener("DOMContentLoaded", handler);
   }
 
   addHandlerRenderLoggedOut(handler) {

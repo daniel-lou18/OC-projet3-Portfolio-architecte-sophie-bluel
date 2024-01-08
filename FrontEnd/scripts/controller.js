@@ -78,13 +78,13 @@ async function modalController(e) {
     ModalView.renderModal();
     ModalView.renderProjects(state.projects);
     // Attacher le controller aux images (fonctionnalité suppression)
-    ModalView.addHandlerDeleteProject(deleteController);
+    ModalView.addHandlerDeleteProject(deleteProjectController);
   } catch (err) {
     ModalView.renderError(err.message);
   }
 }
 
-async function deleteController(id) {
+async function deleteProjectController(id) {
   try {
     ModalView.clearMessages();
     await deleteProject(id);

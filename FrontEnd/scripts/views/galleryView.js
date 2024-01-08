@@ -70,11 +70,11 @@ class GalleryView {
   ////////////////////////////////
 
   addHandlerRenderProjects(handler) {
-    window.addEventListener("load", handler);
+    document.addEventListener("DOMContentLoaded", handler);
   }
 
   addHandlerRenderCategories(handler) {
-    window.addEventListener("load", handler);
+    document.addEventListener("DOMContentLoaded", handler);
   }
 
   addHandlerFilterProjects(handler) {
