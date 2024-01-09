@@ -57,16 +57,16 @@ async function loginController(e) {
   }
 }
 
-function logoutController() {
-  logoutUser();
-  window.location.assign("index.html");
-  UserView.renderLoggedOut();
-}
-
 function userController() {
   loadUser();
   if (!state.user) return;
   UserView.renderLoggedIn();
+}
+
+function logoutController() {
+  logoutUser();
+  window.location.assign("index.html");
+  UserView.renderLoggedOut();
 }
 
 // fonction qui gère la première fenêtre de la modale

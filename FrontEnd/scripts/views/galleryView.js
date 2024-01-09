@@ -30,9 +30,10 @@ class GalleryView {
           <li class="filter-item">
               <a class="filter-link filter-active" href="#filter-tous">Tous</a>
           </li>`;
-      // On ajoute le bouton "Tous" à la première itération de la boucle : renderCategory sera utilisé avec forEach
+      // On ajoute le bouton "Tous" à la première itération de la boucle
       if (idx === 0)
         this.filtersList.insertAdjacentHTML("beforeend", markupTous);
+
       const markup = `
           <li class="filter-item">
               <a class="filter-link" href="#filter-${cat}">${cat.replace(
